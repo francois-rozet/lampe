@@ -1,0 +1,503 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="prev" title="lampe.priors" href="priors.html" />
+
+    <link rel="shortcut icon" href="../_static/logo_dark.svg"/><meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
+        <title>lampe.utils - LAMPE</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  --color-api-keyword: #007020;
+  --color-api-name: #0e84b5;
+  --color-api-pre-name: #0e84b5;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  --color-api-keyword: #66d9ef;
+  --color-api-name: #a6e22e;
+  --color-api-pre-name: #a6e22e;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  --color-api-keyword: #66d9ef;
+  --color-api-name: #a6e22e;
+  --color-api-pre-name: #a6e22e;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">LAMPE</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../_static/logo.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/logo_dark.svg" alt="Dark Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">lampe</span></p>
+<ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/01_npe.ipynb">1. NPE</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/02_nre.ipynb">2. NRE</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="nn/index.html">lampe.nn</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="nn/flows.html">lampe.nn.flows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nn/losses.html">lampe.nn.losses</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data.html">lampe.data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="masks.html">lampe.masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plots.html">lampe.plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="priors.html">lampe.priors</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">lampe.utils</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/master/CONTRIBUTING.md">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/francois-rozet/lampe/releases">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/master/LICENSE">License</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="module-lampe.utils">
+<span id="lampe-utils"></span><h1>lampe.utils<a class="headerlink" href="#module-lampe.utils" title="Permalink to this headline">#</a></h1>
+<p>General purpose helpers.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="lampe.utils.cache">
+<span class="sig-prename descclassname"><span class="pre">lampe.utils.</span></span><span class="sig-name descname"><span class="pre">cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">persist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.utils.cache" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/utils.py#L17-L54"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Unbounded function cache decorator.</p>
+<p>Wraps a function with a memoizing callable that saves call results, which
+can save time when an expensive function is called several times with the
+same arguments.</p>
+<p>The positional and keyword arguments of <code class="code highlight python docutils literal notranslate"><span class="n"><span class="pre">f</span></span></code> must be hashable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>]</em>) – The function to decorate.</p></li>
+<li><p><strong>persist</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether the cached values persist to disk or not.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@cache</span>
+<span class="gp">... </span><span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">n</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fib</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="go">267914296</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="lampe.utils.vectorize">
+<span class="sig-prename descclassname"><span class="pre">lampe.utils.</span></span><span class="sig-name descname"><span class="pre">vectorize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.utils.vectorize" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/utils.py#L57-L103"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Convenience vectorization decorator.</p>
+<p>Defines a vectorized function which takes a sequence of objects or NumPy arrays
+as inputs and returns a tuple of NumPy arrays. The vectorized function evaluates
+<code class="code highlight python docutils literal notranslate"><span class="n"><span class="pre">f</span></span></code> over successive tuples of the input arrays like the <a class="reference external" href="https://docs.python.org/3/library/functions.html#map" title="(in Python v3.10)"><code class="xref py py-func docutils literal notranslate"><span class="pre">map</span></code></a> function,
+except it uses the broadcasting rules of NumPy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>]</em>) – The function to decorate.</p></li>
+<li><p><strong>kwargs</strong> – Keyword arguments passed to <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.vectorize.html#numpy.vectorize" title="(in NumPy v1.22)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.vectorize</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@vectorize</span><span class="p">(</span><span class="n">otypes</span><span class="o">=</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span>
+<span class="gp">... </span><span class="k">def</span> <span class="nf">abs</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">x</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="o">-</span><span class="n">x</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">abs</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="go">array([3., 2., 1., 0., 1., 2., 3.])</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="lampe.utils.broadcast">
+<span class="sig-prename descclassname"><span class="pre">lampe.utils.</span></span><span class="sig-name descname"><span class="pre">broadcast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">tensors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.utils.broadcast" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/utils.py#L106-L138"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Broadcasts tensors together.</p>
+<p>The term broadcasting describes how PyTorch treats tensors with different shapes
+during arithmetic operations. In short, if possible, dimensions that have
+different sizes are expanded (without making copies) to be compatible.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ignore</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><em>Union</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em><em>]</em><em>]</em>) – The number(s) of dimensions not to broadcast.</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">broadcast</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">torch.Size([3, 4, 2])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">torch.Size([3, 4, 5])</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="lampe.utils.starcompose">
+<span class="sig-prename descclassname"><span class="pre">lampe.utils.</span></span><span class="sig-name descname"><span class="pre">starcompose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">fs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.utils.starcompose" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/utils.py#L141-L168"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Returns the composition <span class="math notranslate nohighlight">\(g\)</span> of a sequence of functions
+<span class="math notranslate nohighlight">\((f_1, f_2, \dots, f_n)\)</span>.</p>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[g = f_n \circ \dots \circ f_2 \circ f_1\]</div></div>
+<p>If the output <span class="math notranslate nohighlight">\(x_i\)</span> of the intermediate function <span class="math notranslate nohighlight">\(f_i\)</span> is a tuple,
+its elements are used as separate arguments for the next function <span class="math notranslate nohighlight">\(f_{i+1}\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a>) – A sequence of functions <span class="math notranslate nohighlight">\((f_1, f_2, \dots, f_n)\)</span>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The composition <span class="math notranslate nohighlight">\(g\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a></p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">starcompose</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">12.5</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="lampe.utils.GDStep">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.utils.</span></span><span class="sig-name descname"><span class="pre">GDStep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.utils.GDStep" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/utils.py#L171-L212"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Creates a callable that performs gradient descent (GD) optimization steps
+for parameters <span class="math notranslate nohighlight">\(\phi\)</span> with respect to differentiable loss values.</p>
+<p>The callable takes a scalar loss <span class="math notranslate nohighlight">\(l\)</span> as input, performs a step</p>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[\phi \gets \text{GD}(\phi, \nabla_{\!\phi} \, l)\]</div></div>
+<p>and returns the loss, detached from the computational graph. To prevent invalid
+parameters, steps are skipped if not-a-number (NaN) or infinite values are found
+in the gradient. This feature requires CPU-GPU synchronization, which could be a
+bottleneck for some applications.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>optimizer</strong> (<em>Optimizer</em>) – An optimizer instance (e.g. <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.optim.SGD.html#torch.optim.SGD" title="(in PyTorch v1.11.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.optim.SGD</span></code></a>).</p></li>
+<li><p><strong>clip</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – The norm at which the gradients are clipped. If <code class="code highlight python docutils literal notranslate"><span class="kc"><span class="pre">None</span></span></code>,
+gradients are not clipped.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="lampe.utils.PlateauDetector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.utils.</span></span><span class="sig-name descname"><span class="pre">PlateauDetector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patience</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'min'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.utils.PlateauDetector" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/utils.py#L215-L270"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Creates a plateau detector for online sequences.</p>
+<p>Each time a new value <span class="math notranslate nohighlight">\(x_t\)</span> is provided, it is compared with the current
+best value <span class="math notranslate nohighlight">\(x_b\)</span> to determine whether <span class="math notranslate nohighlight">\(t\)</span> is the new best time step.
+In the minimization mode, <span class="math notranslate nohighlight">\(x_t\)</span> is considered better if it satisfies</p>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[x_t &lt; x_b \, (1 - \tau) ,\]</div></div>
+<p>where <span class="math notranslate nohighlight">\(\tau \in [0, 1]\)</span> is a significance threshold. If it is the case,
+<span class="math notranslate nohighlight">\(b\)</span> becomes <span class="math notranslate nohighlight">\(t\)</span>. The sequence is currently at a plateau if <span class="math notranslate nohighlight">\(b\)</span>
+has not changed for more than <span class="math notranslate nohighlight">\(\lambda\)</span> patience steps, i.e. if</p>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[t - b &gt; \lambda .\]</div></div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – The significance threshold <span class="math notranslate nohighlight">\(\tau\)</span>.</p></li>
+<li><p><strong>patience</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The patience <span class="math notranslate nohighlight">\(\lambda\)</span>.</p></li>
+<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The improvement mode, either <code class="code highlight python docutils literal notranslate"><span class="s1"><span class="pre">'min'</span></span></code> or <code class="code highlight python docutils literal notranslate"><span class="s1"><span class="pre">'max'</span></span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="lampe.utils.MetropolisHastings">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.utils.</span></span><span class="sig-name descname"><span class="pre">MetropolisHastings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.utils.MetropolisHastings" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/utils.py#L273-L374"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Creates a batched Metropolis-Hastings sampler.</p>
+<p>Metropolis-Hastings is a Markov chain Monte Carlo (MCMC) sampling algorithm used to
+sample from intractable distributions <span class="math notranslate nohighlight">\(p(x)\)</span> whose density is proportial to a
+tracatble function <span class="math notranslate nohighlight">\(f(x)\)</span>, with <span class="math notranslate nohighlight">\(x \in \mathcal{X}\)</span>. The algorithm
+consists in repeating the following routine for <span class="math notranslate nohighlight">\(t = 1\)</span> to <span class="math notranslate nohighlight">\(T\)</span>, where
+<span class="math notranslate nohighlight">\(x_0\)</span> is the initial sample and <span class="math notranslate nohighlight">\(q(x' | x)\)</span> is a pre-defined transition
+distribution.</p>
+<ol class="arabic simple">
+<li><p>sample <span class="math notranslate nohighlight">\(x' \sim q(x' | x_{t-1})\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\displaystyle \alpha \gets \frac{f(x')}{f(x_{t-1})} \frac{q(x_{t-1} | x')}{q(x' | x_{t-1})}\)</span></p></li>
+<li><p>sample <span class="math notranslate nohighlight">\(u \sim \mathcal{U}(0, 1)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(x_t \gets \begin{cases} x' &amp; \text{if } u \leq \alpha \\ x_{t-1} &amp; \text{otherwise} \end{cases}\)</span></p></li>
+</ol>
+<p>Asymptotically, i.e. when <span class="math notranslate nohighlight">\(T \to \infty\)</span>, the distribution of samples
+<span class="math notranslate nohighlight">\(x_t\)</span> is guaranteed to converge towards <span class="math notranslate nohighlight">\(p(x)\)</span>. In this implementation,
+a Gaussian transition <span class="math notranslate nohighlight">\(q(x' | x) = \mathcal{N}(x'; x, \Sigma)\)</span> is used, which
+can be modified by subclassing <a class="reference internal" href="#lampe.utils.MetropolisHastings" title="lampe.utils.MetropolisHastings"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetropolisHastings</span></code></a>.</p>
+<p class="rubric">Wikipedia</p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm">https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_0</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – A batch of initial points <span class="math notranslate nohighlight">\(x_0\)</span>, with shape <span class="math notranslate nohighlight">\((*, L)\)</span>.</p></li>
+<li><p><strong>f</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a>) – A function <span class="math notranslate nohighlight">\(f(x)\)</span> proportional to a density function <span class="math notranslate nohighlight">\(p(x)\)</span>.</p></li>
+<li><p><strong>log_f</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a>) – The logarithm <span class="math notranslate nohighlight">\(\log f(x)\)</span> of a function proportional
+to <span class="math notranslate nohighlight">\(p(x)\)</span>.</p></li>
+<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><em>Union</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>, </em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>]</em>) – The standard deviation of the Gaussian transition.
+Either a scalar or a vector.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x_0</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">log_f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sampler</span> <span class="o">=</span> <span class="n">MetropolisHastings</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">log_f</span><span class="o">=</span><span class="n">log_f</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sampler</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">8</span><span class="p">,</span> <span class="n">burn</span><span class="o">=</span><span class="mi">2</span><span class="o">**</span><span class="mi">7</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">torch.Size([32, 128, 7])</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="lampe.utils.gridapply">
+<span class="sig-prename descclassname"><span class="pre">lampe.utils.</span></span><span class="sig-name descname"><span class="pre">gridapply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4096</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.utils.gridapply" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/utils.py#L377-L424"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Evaluates a function <span class="math notranslate nohighlight">\(f(x)\)</span> over a multi-dimensional domain split
+into grid cells. Instead of evaluating the function cell by cell, batches are
+given to the function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a>) – A function <span class="math notranslate nohighlight">\(f(x)\)</span>.</p></li>
+<li><p><strong>bins</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><em>Union</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em><em>]</em>) – The number(s) of bins per dimension.</p></li>
+<li><p><strong>bounds</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><em>Tuple</em></a><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>, </em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>]</em>) – A tuple of lower and upper domain bounds.</p></li>
+<li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The size of the batches given to the function.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">gridapply</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">torch.Size([50, 50, 50])</span>
+</pre></div>
+</div>
+</dd></dl>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          <a class="prev-page" href="priors.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">lampe.priors</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2021-2022, François Rozet
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and 
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/francois-rozet/lampe" aria-label="GitHub"><i class="fa-brands fa-github fa-lg"></i></a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/furo.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>
