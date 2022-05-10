@@ -447,3 +447,87 @@ class AMNPELoss(nn.Module):
         log_prob = self.estimator(theta, x, b)
 
         return -log_prob.mean()
+
+
+class DNRE(NRE):
+    r"""Creates a denoising neural ratio estimation (NRE) classifier network."""
+
+    def __init__(
+        self,
+        theta_dim: int,
+        x_dim: int,
+        *args,
+        **kwargs,
+    ):
+        super().__init__(theta_dim, x_dim + 1, *args, **kwargs)
+
+    def forward(self, theta: Tensor, x: Tensor, t: Union[float, Tensor] = 0) -> Tensor:
+        r"""
+        Arguments:
+            theta: The parameters :math:`\theta`, with shape :math:`(*, D)`.
+            x: The observation :math:`x`, with shape :math:`(*, L)`.
+            t: The time :math:`\t`, with shape :math:`(*,)`.
+
+        Returns:
+            The log-ratio :math:`\log r_\phi(\theta, x, t)`, with shape :math:`(*,)`.
+        """
+
+        if not torch.is_tensor(t):
+            t = theta.new_tensor(t)
+
+        theta = self.standardize(theta)
+        theta, x, t = broadcast(theta, x, t[..., None] * 2 - 1, ignore=1)
+
+        return self.net(torch.cat((theta, x, t), dim=-1)).squeeze(-1)
+
+
+class DNRELoss(nn.Module):
+    r"""Creates a module that calculates the loss :math:`l` of a DNRE classifier
+    :math:`d_\phi`. Given a batch of :math:`N` pairs :math:`\{ (\theta_i, x_i) \}`,
+    returns
+
+    .. math:: l = \frac{1}{N} \sum_{i = 1}^N
+        \ell(d_\phi(\alpha(t_i) \theta_i + (1 - \alpha(t_i)) \theta_{i+1}, x_i, t_i)) +
+        \ell(1 - d_\phi(\theta_{i+1}, x_i, t_i))
+
+    where :math:`\alpha(t) = \sqrt{1 - t^2}`.
+
+    Arguments:
+        estimator: A classifier network :math:`d_\phi(\theta, x, t)`.
+    """
+
+    def __init__(self, estimator: nn.Module, prior: Distribution = None):
+        super().__init__()
+
+        self.estimator = estimator
+        self.prior = prior
+
+    def forward(self, theta: Tensor, x: Tensor) -> Tensor:
+        r"""
+        Arguments:
+            theta: The parameters :math:`\theta`, with shape :math:`(N, D)`.
+            x: The observation :math:`x`, with shape :math:`(N, L)`.
+
+        Returns:
+            The scalar loss :math:`l`.
+        """
+
+        if self.prior is None:
+            theta_prime = torch.roll(theta, 1, dims=0)
+        else:
+            theta_prime = prior.sample(theta.shape[:-1])
+
+        t = torch.rand_like(theta[..., 0]).clamp(min=0, max=1-1e-6)
+        alpha = (1 - t**2)**(1/2)
+        alpha = alpha[..., None]
+        theta = alpha * theta + (1 - alpha) * theta_prime
+
+        log_r, log_r_prime = self.estimator(
+            torch.stack((theta, theta_prime)),
+            x, t,
+        )
+
+        l1 = -F.logsigmoid(log_r).mean()
+        l0 = -F.logsigmoid(-log_r_prime).mean()
+
+        return l1 + l0
