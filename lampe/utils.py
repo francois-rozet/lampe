@@ -78,7 +78,7 @@ def vectorize(f: Callable = None, /, **kwargs):
     if f is None:
         return partial(vectorize, **kwargs)
     else:
-        class vectorize(np.vectorize):
+        class Vectorize(np.vectorize):
             def _vectorize_call(self, func: Callable, args: List) -> Any:
                 if self.signature is not None:
                     return self._vectorize_call_with_signature(func, args)
@@ -100,7 +100,7 @@ def vectorize(f: Callable = None, /, **kwargs):
                             for x, t in zip(outputs, otypes)
                         )
 
-        return vectorize(f, **kwargs)
+        return Vectorize(f, **kwargs)
 
 
 def broadcast(*tensors: Tensor, ignore: Union[int, List[int]] = None) -> List[Tensor]:
