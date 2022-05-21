@@ -121,26 +121,25 @@ def voltage_trace(
         x / (exp(x) - 1)
     )
 
-    alpha_n = lambda x: 0.032 * efun(-0.2 * (x - 15.)) / 0.2
-    beta_n = lambda x: 0.5 * exp(-(x - 10.) / 40.)
+    alpha_n = lambda x: 0.032 * efun(-0.2 * (x - 15)) / 0.2
+    beta_n = lambda x: 0.5 * exp(-(x - 10) / 40)
     tau_n = lambda x: 1 / (alpha_n(x) + beta_n(x))
     n_inf = lambda x: alpha_n(x) / (alpha_n(x) + beta_n(x))
 
-    alpha_m = lambda x: 0.32 * efun(-0.25 * (x - 13.)) / 0.25
-    beta_m = lambda x: 0.28 * efun(0.2 * (x - 40.)) / 0.2
+    alpha_m = lambda x: 0.32 * efun(-0.25 * (x - 13)) / 0.25
+    beta_m = lambda x: 0.28 * efun(0.2 * (x - 40)) / 0.2
     tau_m = lambda x: 1 / (alpha_m(x) + beta_m(x))
     m_inf = lambda x: alpha_m(x) / (alpha_m(x) + beta_m(x))
 
-    alpha_h = lambda x: 0.128 * exp(-(x - 17.) / 18)
-    beta_h = lambda x: 4. / (1. + exp(-0.2 * (x - 40.)))
+    alpha_h = lambda x: 0.128 * exp(-(x - 17) / 18)
+    beta_h = lambda x: 4 / (1 + exp(-0.2 * (x - 40)))
     tau_h = lambda x: 1 / (alpha_h(x) + beta_h(x))
     h_inf = lambda x: alpha_h(x) / (alpha_h(x) + beta_h(x))
 
-    tau_p = lambda x: tau_max / (3.3 * exp(0.05 * (x + 35.)) + exp(-0.05 * (x + 35.)))
-    p_inf = lambda x: 1. / (1. + exp(-0.1 * (x + 35.)))
+    tau_p = lambda x: tau_max / (3.3 * exp(0.05 * (x + 35)) + exp(-0.05 * (x + 35)))
+    p_inf = lambda x: 1 / (1 + exp(-0.1 * (x + 35)))
 
     # Iterations
-    timesteps = np.arange(0, T, dt)
     voltages = []
 
     V = np.full_like(V_t, V_0)
@@ -151,21 +150,21 @@ def voltage_trace(
     h = h_inf(V_rel)
     p = p_inf(V)
 
-    for i, t in enumerate(timesteps):
+    for t in np.arange(0, T, dt):
         tau_V = C / (
-            g_Na * m ** 3 * h
-            + g_K * n ** 4
+            g_Na * m**3 * h
+            + g_K * n**4
             + g_M * p
             + g_leak
         )
 
         V_inf = tau_V * (
-            E_Na * g_Na * m ** 3 * h
-            + E_K * g_K * n ** 4
+            E_Na * g_Na * m**3 * h
+            + E_K * g_K * n**4
             + E_K * g_M * p
             + E_leak * g_leak
             + I * (pad <= t < T - pad)
-            + sigma * rng.standard_normal(V.shape) / dt ** 0.5
+            + sigma * rng.standard_normal(V.shape) / dt**0.5
         ) / C
 
         V = V_inf + (V - V_inf) * exp(-dt / tau_V)

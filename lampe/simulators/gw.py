@@ -45,7 +45,7 @@ from tqdm import tqdm
 from typing import *
 
 from . import Simulator
-from ..priors import (
+from ..distributions import (
     Distribution,
     Joint,
     Uniform,
@@ -113,9 +113,9 @@ def build_prior(b: BoolTensor = None) -> Distribution:
     for i in range(2, len(b)):
         if b[i]:
             if i in [7, 8, 11]:  # [tilt_1, tilt_2, theta_jn]
-                m = TransformedUniform(LOWER[i], UPPER[i], CosTransform())
+                m = TransformedUniform(CosTransform(), LOWER[i], UPPER[i])
             elif i == 14:  # declination
-                m = TransformedUniform(LOWER[i], UPPER[i], SinTransform())
+                m = TransformedUniform(SinTransform(), LOWER[i], UPPER[i])
             else:
                 m = Uniform(LOWER[i], UPPER[i])
 

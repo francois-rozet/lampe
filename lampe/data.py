@@ -8,7 +8,7 @@ import torch
 from bisect import bisect
 from numpy import ndarray as Array
 from pathlib import Path
-from torch import Tensor
+from torch import Tensor, Size
 from torch.distributions import Distribution
 from torch.utils.data import DataLoader, Dataset, IterableDataset
 from tqdm import tqdm
@@ -25,7 +25,7 @@ class IterableJointDataset(IterableDataset):
         self,
         prior: Distribution,
         simulator: Callable,
-        batch_shape: torch.Size = (),
+        batch_shape: Size = (),
         numpy: bool = False,
     ):
         super().__init__()

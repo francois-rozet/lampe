@@ -1,11 +1,10 @@
 r"""Masking helpers."""
 
-import numpy as np
 import torch
 import torch.nn as nn
 
 from torch import Tensor, BoolTensor
-from torch.distributions import *
+from torch.distributions import Distribution, Independent
 from typing import *
 
 
@@ -41,24 +40,26 @@ def str2mask(string: str) -> BoolTensor:
 class BernoulliMask(Independent):
     r"""Creates a distribution :math:`P(b)` over all binary masks :math:`b` in the
     hypercube :math:`\{0, 1\}^D` such that each bit :math:`b_i` has a probability
-    :math:`p` of being positive.
+    :math:`p_i` of being positive.
 
-    .. math:: P(b) = \prod^D_{i = 1} p^{b_i} (1 - p)^{1 - b_i}
+    .. math:: P(b) = \prod^D_{i = 1} p_i^{b_i} (1 - p_i)^{1 - b_i}
 
     Arguments:
-        dim: The hypercube dimensionality :math:`D`.
-        p: The probability :math:`p` of a bit to be positive.
+        p: The probability vector :math:`p`, with shape :math:`(*, D)`.
 
     Example:
-        >>> d = BernoulliMask(5, 0.5)
+        >>> d = BernoulliMask(torch.tensor([0.4, 0.1, 0.9]))
         >>> d.sample()
-        tensor([True, True, False, True, False])
+        tensor([True, False, True])
     """
 
     has_rsample = False
 
-    def __init__(self, dim: int, p: float = 0.5):
-        super().__init__(Bernoulli(torch.ones(dim) * p), 1)
+    def __init__(self, p: Tensor):
+        super().__init__(Bernoulli(p), 1)
+
+    def __repr__(self) -> str:
+        return f'{self.__class__.__name__}(D={self.event_shape.numel()})'
 
     def log_prob(b: BoolTensor) -> Tensor:
         return super().log_prob(b.float())
@@ -77,7 +78,7 @@ class SelectionMask(Distribution):
         \end{cases}
 
     Arguments:
-        selection: A binary mask selection :math:`\mathcal{B}`.
+        selection: A binary mask selection :math:`\mathcal{B}`, with shape :math:`(N, D)`.
 
     Example:
         >>> selection = torch.tensor([
@@ -94,6 +95,9 @@ class SelectionMask(Distribution):
         super().__init__(event_shape=selection.shape[-1:])
 
         self.selection = selection
+
+    def __repr__(self) -> str:
+        return f'{self.__class__.__name__}(D={self.event_shape.numel()})'
 
     def log_prob(b: BoolTensor) -> Tensor:
         match = torch.all(b[..., None, :] == self.selection, dim=-1)

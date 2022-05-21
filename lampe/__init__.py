@@ -1,7 +1,9 @@
 r"""Likelihood-free AMortized Posterior Estimation (LAMPE)"""
 
-from . import patch
-from .data import JointLoader, H5Dataset
-from .nn import NRE, NPE
-from .nn.losses import NRELoss, NPELoss
-from .priors import BoxUniform, DiagNormal
+from . import data
+from . import distributions
+from . import inference
+from . import masks
+from . import nn
+from . import plots
+from . import utils

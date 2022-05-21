@@ -1,9 +1,4 @@
-r"""Plotting helpers.
-
-.. admonition:: TODO
-
-    * Generate plots.
-"""
+r"""Plotting helpers."""
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -16,7 +11,7 @@ from typing import *
 __all__ = ['nice_rc', 'corner', 'rank_ecdf']
 
 
-def nice_rc(latex: bool = True) -> Dict[str, Any]:
+def nice_rc(latex: bool = False) -> Dict[str, Any]:
     r"""Returns a dictionary of runtime configuration (rc) settings for nicer
     :mod:`matplotlib` plots. The settings include 12pt font size, higher DPI,
     tight layout, transparent background, etc.
@@ -26,11 +21,6 @@ def nice_rc(latex: bool = True) -> Dict[str, Any]:
 
     Example:
         >>> plt.rcParams.update(nice_rc())
-        >>> x = np.arange(5)
-        >>> plt.plot(x, np.sqrt(x))
-        >>> plt.xlabel(r'$x$')
-        >>> plt.ylabel(r'$f(x)$')
-        TODO
     """
 
     rc = {
@@ -185,9 +175,13 @@ def corner(
         The figure instance for the corner plot.
 
     Example:
-        >>> data = np.random.randn(2**16, 4)
-        >>> corner(data, bins=42)
-        TODO
+        >>> data = np.random.randn(2**16, 3)
+        >>> labels = [r'$\alpha$', r'$\beta$', r'$\gamma$']
+        >>> corner(data, bins=42, labels=labels, figsize=(4.8, 4.8))
+
+    .. image:: ../static/images/corner.png
+        :align: center
+        :width: 600
     """
 
     # Histograms
@@ -278,7 +272,7 @@ def corner(
 
     for c, l in zip(creds[:-1], levels):
         handles.append(mpl.patches.Patch(color=cmap(l), linewidth=0))
-        texts.append(r'{:.1f}\,\%'.format(c * 100))
+        texts.append(r'${:.1f}\,\%$'.format(c * 100))
 
     ## Update
     if not new:
@@ -412,7 +406,10 @@ def rank_ecdf(
     Example:
         >>> ranks = np.random.rand(2**12)**2
         >>> rank_ecdf(ranks)
-        TODO
+
+    .. image:: ../static/images/rank_ecdf.png
+        :align: center
+        :width: 400
     """
 
     # Figure
@@ -434,11 +431,11 @@ def rank_ecdf(
     if new:
         ax.plot([0, 1], [0, 1], color='k', linestyle='--')
 
-    ax.plot(p, cdf, color=color, label=legend)
+    ax.plot(ranks, ecdf, color=color, label=legend)
 
     ax.grid()
     ax.set_xlabel(r'$r$')
-    ax.set_ylabel(r'$\text{ECDF}(r)$')
+    ax.set_ylabel(r'$\mathrm{ECDF}(r)$')
 
     if legend is not None:
         ax.legend(loc='upper left')

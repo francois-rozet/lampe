@@ -11,8 +11,6 @@ from torch import Tensor
 from torch.optim import Optimizer
 from typing import *
 
-from .priors import DiagNormal
-
 
 def cache(f: Callable = None, /, persist: bool = False) -> Callable:
     r"""Unbounded function cache decorator.
@@ -78,7 +76,7 @@ def vectorize(f: Callable = None, /, **kwargs):
     if f is None:
         return partial(vectorize, **kwargs)
     else:
-        class vectorize(np.vectorize):
+        class Vectorize(np.vectorize):
             def _vectorize_call(self, func: Callable, args: List) -> Any:
                 if self.signature is not None:
                     return self._vectorize_call_with_signature(func, args)
@@ -100,7 +98,7 @@ def vectorize(f: Callable = None, /, **kwargs):
                             for x, t in zip(outputs, otypes)
                         )
 
-        return vectorize(f, **kwargs)
+        return Vectorize(f, **kwargs)
 
 
 def broadcast(*tensors: Tensor, ignore: Union[int, List[int]] = None) -> List[Tensor]:
@@ -136,6 +134,41 @@ def broadcast(*tensors: Tensor, ignore: Union[int, List[int]] = None) -> List[Te
         torch.broadcast_to(t, common + t.shape[i:])
         for t, i in zip(tensors, dims)
     ]
+
+
+def deepto(obj: Any, *args, **kwargs) -> Any:
+    r"""Moves and/or casts all tensors referenced in an object, recursively.
+
+    .. warning::
+        Unless a tensor already has the correct type and device, the referenced
+        tensors are replaced by a copy with the desired properties, which will
+        break cross-references. Proceed with caution.
+
+    Arguments:
+        obj: An object.
+        args: Positional arguments passed to :func:`torch.Tensor.to`.
+        kwargs: Keyword arguments passed to :func:`torch.Tensor.to`.
+
+    Example:
+        >>> tensors = [torch.arange(i) for i in range(1, 4)]
+        >>> deepto(tensors, dtype=torch.float)
+        [tensor([0.]), tensor([0., 1.]), tensor([0., 1., 2.])]
+    """
+
+    if torch.is_tensor(obj):
+        obj = obj.to(*args, **kwargs)
+    elif isinstance(obj, dict):
+        for key, value in obj.items():
+            obj[key] = deepto(value, *args, **kwargs)
+    elif isinstance(obj, list):
+        for i, value in enumerate(obj):
+            obj[i] = deepto(value, *args, **kwargs)
+    elif isinstance(obj, tuple):
+        obj = tuple(deepto(value, *args, **kwargs) for value in obj)
+    elif hasattr(obj, '__dict__'):
+        deepto(obj.__dict__, *args, **kwargs)
+
+    return obj
 
 
 def starcompose(*fs: Callable) -> Callable:
@@ -270,113 +303,9 @@ class PlateauDetector(object):
         return self.time - self.best_time > self.patience
 
 
-class MetropolisHastings(object):
-    r"""Creates a batched Metropolis-Hastings sampler.
-
-    Metropolis-Hastings is a Markov chain Monte Carlo (MCMC) sampling algorithm used to
-    sample from intractable distributions :math:`p(x)` whose density is proportial to a
-    tracatble function :math:`f(x)`, with :math:`x \in \mathcal{X}`. The algorithm
-    consists in repeating the following routine for :math:`t = 1` to :math:`T`, where
-    :math:`x_0` is the initial sample and :math:`q(x' | x)` is a pre-defined transition
-    distribution.
-
-    1. sample :math:`x' \sim q(x' | x_{t-1})`
-    2. :math:`\displaystyle \alpha \gets \frac{f(x')}{f(x_{t-1})} \frac{q(x_{t-1} | x')}{q(x' | x_{t-1})}`
-    3. sample :math:`u \sim \mathcal{U}(0, 1)`
-    4. :math:`x_t \gets \begin{cases} x' & \text{if } u \leq \alpha \\ x_{t-1} & \text{otherwise} \end{cases}`
-
-    Asymptotically, i.e. when :math:`T \to \infty`, the distribution of samples
-    :math:`x_t` is guaranteed to converge towards :math:`p(x)`. In this implementation,
-    a Gaussian transition :math:`q(x' | x) = \mathcal{N}(x'; x, \Sigma)` is used, which
-    can be modified by subclassing :class:`MetropolisHastings`.
-
-    Wikipedia:
-        https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm
-
-    Arguments:
-        x_0: A batch of initial points :math:`x_0`, with shape :math:`(*, L)`.
-        f: A function :math:`f(x)` proportional to a density function :math:`p(x)`.
-        log_f: The logarithm :math:`\log f(x)` of a function proportional
-            to :math:`p(x)`.
-        sigma: The standard deviation of the Gaussian transition.
-            Either a scalar or a vector.
-
-    Example:
-        >>> x_0 = torch.rand(128, 7)
-        >>> log_f = lambda x: -(x**2).sum(dim=-1) / 2
-        >>> sampler = MetropolisHastings(x_0, log_f=log_f, sigma=0.5)
-        >>> samples = [x for x in sampler(2**8, burn=2**7, step=2**2)]
-        >>> samples = torch.stack(samples)
-        >>> samples.shape
-        torch.Size([32, 128, 7])
-    """
-
-    def __init__(
-        self,
-        x_0: Tensor,
-        f: Callable = None,
-        log_f: Callable = None,
-        sigma: Union[float, Tensor] = 1.,
-    ):
-        super().__init__()
-
-        self.x_0 = x_0
-
-        assert f is not None or log_f is not None, \
-            "Either 'f' or 'log_f' must be provided."
-
-        if f is None:
-            self.f = lambda x: log_f(x).exp()
-            self.log_f = log_f
-        else:
-            self.f = f
-            self.log_f = lambda x: f(x).log()
-
-        self.q = lambda x: DiagNormal(x, torch.ones_like(x) * sigma)
-        self.symmetric = True  # q(x | y) is equal to q(y | x)
-
-    def __iter__(self) -> Iterator[Tensor]:
-        x = self.x_0
-
-        # log f(x)
-        log_f_x = self.log_f(x)
-
-        while True:
-            # y ~ q(y | x)
-            y = self.q(x).sample()
-
-            # log f(y)
-            log_f_y = self.log_f(y)
-
-            #     f(y)   q(x | y)
-            # a = ---- * --------
-            #     f(x)   q(y | x)
-            log_a = log_f_y - log_f_x
-
-            if not self.symmetric:
-                log_a = log_a + self.q(y).log_prob(x) - self.q(x).log_prob(y)
-
-            a = log_a.exp()
-
-            # u in [0; 1]
-            u = torch.rand(a.shape).to(a)
-
-            # if u < a, x <- y
-            # else x <- x
-            mask = u < a
-
-            x = torch.where(mask.unsqueeze(-1), y, x)
-            log_f_x = torch.where(mask, log_f_y, log_f_x)
-
-            yield x
-
-    def __call__(self, stop: int, burn: int = 0, step: int = 1) -> Iterable[Tensor]:
-        return islice(self, burn, stop, step)
-
-
 def gridapply(
     self,
-    f: Callable,
+    f: Callable[[Tensor], Tensor],
     bins: Union[int, List[int]],
     bounds: Tuple[Tensor, Tensor],
     batch_size: int = 2**12,  # 4096

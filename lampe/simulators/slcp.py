@@ -21,7 +21,7 @@ from torch import Tensor, BoolTensor
 from typing import *
 
 from . import Simulator
-from ..priors import (
+from ..distributions import (
     Distribution,
     Independent,
     MultivariateNormal,

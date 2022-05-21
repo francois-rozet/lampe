@@ -1,6 +1,5 @@
 h5py>=3.0.0
 matplotlib>=3.4.0
-nflows>=0.14
 numpy>=1.20.0
 torch>=1.8.0
 tqdm>=4.52.0
