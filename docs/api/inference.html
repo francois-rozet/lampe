@@ -1,0 +1,725 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="lampe.masks" href="masks.html" /><link rel="prev" title="lampe.data" href="data.html" />
+
+    <link rel="shortcut icon" href="../_static/logo_dark.svg"/><meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
+        <title>lampe.inference - LAMPE</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  --color-api-keyword: #007020;
+  --color-api-name: #0e84b5;
+  --color-api-pre-name: #0e84b5;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  --color-api-keyword: #66d9ef;
+  --color-api-name: #a6e22e;
+  --color-api-pre-name: #a6e22e;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  --color-api-keyword: #66d9ef;
+  --color-api-name: #a6e22e;
+  --color-api-pre-name: #a6e22e;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">LAMPE</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../_static/logo.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/logo_dark.svg" alt="Dark Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">lampe</span></p>
+<ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/01_npe.ipynb">1. Neural posterior estimation</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/02_nre.ipynb">2. Neural ratio estimation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="nn/index.html">lampe.nn</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="nn/flows.html">lampe.nn.flows</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="distributions/index.html">lampe.distributions</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="distributions/transforms.html">lampe.distributions.transforms</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data.html">lampe.data</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">lampe.inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="masks.html">lampe.masks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plots.html">lampe.plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">lampe.utils</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/master/CONTRIBUTING.md">Contributing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/francois-rozet/lampe/releases">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/master/LICENSE">License</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="module-lampe.inference">
+<span id="lampe-inference"></span><h1>lampe.inference<a class="headerlink" href="#module-lampe.inference" title="Permalink to this headline">#</a></h1>
+<p>Inference components such as estimators, training losses and MCMC samplers.</p>
+<div class="admonition-todo admonition">
+<p class="admonition-title">TODO</p>
+<ul class="simple">
+<li><p>Finish documentation (NPE, AMNPE).</p></li>
+<li><p>Find references.</p></li>
+</ul>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="lampe.inference.NRE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.inference.</span></span><span class="sig-name descname"><span class="pre">NRE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moments=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">build=&lt;class</span> <span class="pre">'lampe.nn.MLP'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.inference.NRE" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/inference.py#L22-L102"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Creates a neural ratio estimation (NRE) classifier network.</p>
+<p>The principle of neural ratio estimation is to train a classifier network
+<span class="math notranslate nohighlight">\(d_\phi(\theta, x)\)</span> to discriminate between pairs <span class="math notranslate nohighlight">\((\theta, x)\)</span>
+equally sampled from the joint distribution <span class="math notranslate nohighlight">\(p(\theta, x)\)</span> and the
+product of the marginals <span class="math notranslate nohighlight">\(p(\theta)p(x)\)</span>. Formally, the optimization
+problem is</p>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[\arg \min_\phi
+\mathbb{E}_{p(\theta, x)} \big[ \ell(d_\phi(\theta, x)) \big] +
+\mathbb{E}_{p(\theta)p(x)} \big[ \ell(1 - d_\phi(\theta, x)) \big]\]</div></div>
+<p>where <span class="math notranslate nohighlight">\(\ell(p) = - \log p\)</span> is the negative log-likelihood.
+For this task, the decision function modeling the Bayes optimal classifier is</p>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[d(\theta, x)
+= \frac{p(\theta, x)}{p(\theta, x) + p(\theta) p(x)}\]</div></div>
+<p>thereby defining the likelihood-to-evidence (LTE) ratio</p>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[r(\theta, x)
+= \frac{d(\theta, x)}{1 - d(\theta, x)}
+= \frac{p(\theta, x)}{p(\theta) p(x)}
+= \frac{p(x | \theta)}{p(x)}
+= \frac{p(\theta | x)}{p(\theta)} .\]</div></div>
+<p>To prevent numerical stability issues when <span class="math notranslate nohighlight">\(d_\phi(\theta, x) \to 0\)</span>,
+the neural network returns the logit of the class prediction
+<span class="math notranslate nohighlight">\(\text{logit}(d_\phi(\theta, x)) = \log r_\phi(\theta, x)\)</span>.</p>
+<p class="rubric">References</p>
+<p>Approximating Likelihood Ratios with Calibrated Discriminative Classifiers
+(Cranmer et al., 2015)
+<a class="reference external" href="https://arxiv.org/abs/1506.02169">https://arxiv.org/abs/1506.02169</a></p>
+<p>Likelihood-free MCMC with Amortized Approximate Ratio Estimators
+(Hermans et al., 2019)
+<a class="reference external" href="https://arxiv.org/abs/1903.04057">https://arxiv.org/abs/1903.04057</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The dimensionality <span class="math notranslate nohighlight">\(D\)</span> of the parameter space.</p></li>
+<li><p><strong>x_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The dimensionality <span class="math notranslate nohighlight">\(L\)</span> of the observation space.</p></li>
+<li><p><strong>moments</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><em>Tuple</em></a><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>, </em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>]</em>) – The parameters moments <span class="math notranslate nohighlight">\(\mu\)</span> and <span class="math notranslate nohighlight">\(\sigma\)</span>. If provided,
+the moments are used to standardize the parameters.</p></li>
+<li><p><strong>build</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em><em>, </em><em>Module</em><em>]</em>) – The network constructor (e.g. <code class="xref py py-class docutils literal notranslate"><span class="pre">nn.MLP</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">nn.ResMLP</span></code>).</p></li>
+<li><p><strong>kwargs</strong> – Keyword arguments passed to the constructor.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="lampe.inference.NRE.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.inference.NRE.forward" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/inference.py#L89-L102"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The parameters <span class="math notranslate nohighlight">\(\theta\)</span>, with shape <span class="math notranslate nohighlight">\((*, D)\)</span>.</p></li>
+<li><p><strong>x</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The observation <span class="math notranslate nohighlight">\(x\)</span>, with shape <span class="math notranslate nohighlight">\((*, L)\)</span>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The log-ratio <span class="math notranslate nohighlight">\(\log r_\phi(\theta, x)\)</span>, with shape <span class="math notranslate nohighlight">\((*,)\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="lampe.inference.NRELoss">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.inference.</span></span><span class="sig-name descname"><span class="pre">NRELoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">estimator</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.inference.NRELoss" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/inference.py#L105-L144"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Creates a module that calculates the loss <span class="math notranslate nohighlight">\(l\)</span> of a NRE classifier
+<span class="math notranslate nohighlight">\(d_\phi\)</span>. Given a batch of <span class="math notranslate nohighlight">\(N\)</span> pairs <span class="math notranslate nohighlight">\(\{ (\theta_i, x_i) \}\)</span>,
+the module returns</p>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[l = \frac{1}{N} \sum_{i = 1}^N
+\ell(d_\phi(\theta_i, x_i)) + \ell(1 - d_\phi(\theta_{i+1}, x_i))\]</div></div>
+<p>where <span class="math notranslate nohighlight">\(\ell(p) = - \log p\)</span> is the negative log-likelihood.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>estimator</strong> (<em>Module</em>) – A classifier network <span class="math notranslate nohighlight">\(d_\phi(\theta, x)\)</span>.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="lampe.inference.NRELoss.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.inference.NRELoss.forward" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/inference.py#L124-L144"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The parameters <span class="math notranslate nohighlight">\(\theta\)</span>, with shape <span class="math notranslate nohighlight">\((N, D)\)</span>.</p></li>
+<li><p><strong>x</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The observation <span class="math notranslate nohighlight">\(x\)</span>, with shape <span class="math notranslate nohighlight">\((N, L)\)</span>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The scalar loss <span class="math notranslate nohighlight">\(l\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="lampe.inference.AMNRE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.inference.</span></span><span class="sig-name descname"><span class="pre">AMNRE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_dim</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.inference.AMNRE" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/inference.py#L147-L216"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Creates an arbitrary marginal neural ratio estimation (AMNRE) classifier
+network.</p>
+<p>The principle of AMNRE is to introduce, as input to the classifier, a binary mask
+<span class="math notranslate nohighlight">\(b \in \{0, 1\}^D\)</span> indicating a subset of parameters <span class="math notranslate nohighlight">\(\theta_b =
+(\theta_i: b_i = 1)\)</span> of interest. Intuitively, this allows the classifier to
+distinguish subspaces and to learn a different ratio for each of them. Formally,
+the classifer network takes the form <span class="math notranslate nohighlight">\(d_\phi(\theta_b, x, b)\)</span> and the
+optimization problem becomes</p>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[\arg \min_\phi
+\mathbb{E}_{p(\theta, x) P(b)} \big[ \ell(d_\phi(\theta_b, x, b)) \big] +
+\mathbb{E}_{p(\theta)p(x) P(b)} \big[ \ell(1 - d_\phi(\theta_b, x, b)) \big],\]</div></div>
+<p>where <span class="math notranslate nohighlight">\(P(b)\)</span> is a binary mask distribution. In this context, the Bayes
+optimal classifier is</p>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[d(\theta_b, x, b)
+= \frac{p(\theta_b, x)}{p(\theta_b, x) + p(\theta_b) p(x)}
+= \frac{r(\theta_b, x)}{1 + r(\theta_b, x)} .\]</div></div>
+<p>Therefore, a classifier network trained for AMNRE gives access to an estimator
+<span class="math notranslate nohighlight">\(\log r_\phi(\theta_b, x, b)\)</span> of all marginal LTE log-ratios
+<span class="math notranslate nohighlight">\(\log r(\theta_b, x)\)</span>.</p>
+<p class="rubric">References</p>
+<p>Arbitrary Marginal Neural Ratio Estimation for Simulation-based Inference
+(Rozet et al., 2021)
+<a class="reference external" href="https://arxiv.org/abs/2110.00449">https://arxiv.org/abs/2110.00449</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The dimensionality <span class="math notranslate nohighlight">\(D\)</span> of the parameter space.</p></li>
+<li><p><strong>x_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The dimensionality <span class="math notranslate nohighlight">\(L\)</span> of the observation space.</p></li>
+<li><p><strong>args</strong> – Positional arguments passed to <a class="reference internal" href="#lampe.inference.NRE" title="lampe.inference.NRE"><code class="xref py py-class docutils literal notranslate"><span class="pre">NRE</span></code></a>.</p></li>
+<li><p><strong>kwargs</strong> – Keyword arguments passed to <a class="reference internal" href="#lampe.inference.NRE" title="lampe.inference.NRE"><code class="xref py py-class docutils literal notranslate"><span class="pre">NRE</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="lampe.inference.AMNRE.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.inference.AMNRE.forward" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/inference.py#L194-L216"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The parameters <span class="math notranslate nohighlight">\(\theta\)</span>, with shape <span class="math notranslate nohighlight">\((*, D)\)</span>, or
+a subset <span class="math notranslate nohighlight">\(\theta_b\)</span>, with shape <span class="math notranslate nohighlight">\((*, |b|)\)</span>.</p></li>
+<li><p><strong>x</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The observation <span class="math notranslate nohighlight">\(x\)</span>, with shape <span class="math notranslate nohighlight">\((*, L)\)</span>.</p></li>
+<li><p><strong>b</strong> (<em>BoolTensor</em>) – A binary mask <span class="math notranslate nohighlight">\(b\)</span>, with shape <span class="math notranslate nohighlight">\((*, D)\)</span>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The log-ratio <span class="math notranslate nohighlight">\(\log r_\phi(\theta_b, x, b)\)</span>, with shape <span class="math notranslate nohighlight">\((*,)\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="lampe.inference.AMNRELoss">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.inference.</span></span><span class="sig-name descname"><span class="pre">AMNRELoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">estimator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_dist</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.inference.AMNRELoss" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/inference.py#L219-L267"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Creates a module that calculates the loss <span class="math notranslate nohighlight">\(l\)</span> of a AMNRE classifier
+<span class="math notranslate nohighlight">\(d_\phi\)</span>. Given a batch of <span class="math notranslate nohighlight">\(N\)</span> pairs <span class="math notranslate nohighlight">\(\{ (\theta_i, x_i) \}\)</span>,
+the module returns</p>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[l = \frac{1}{N} \sum_{i = 1}^N
+\ell(d_\phi(\theta_i \odot b_i, x_i, b_i)) +
+\ell(1 - d_\phi(\theta_{i+1} \odot b_i, x_i, b_i))\]</div></div>
+<p>where the binary masks <span class="math notranslate nohighlight">\(b_i\)</span> are sampled from a distribution <span class="math notranslate nohighlight">\(P(b)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>estimator</strong> (<em>Module</em>) – A classifier network <span class="math notranslate nohighlight">\(d_\phi(\theta, x, b)\)</span>.</p></li>
+<li><p><strong>mask_dist</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/distributions.html#torch.distributions.distribution.Distribution" title="(in PyTorch v1.11.0)"><em>Distribution</em></a>) – A binary mask distribution <span class="math notranslate nohighlight">\(P(b)\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="lampe.inference.AMNRELoss.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.inference.AMNRELoss.forward" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/inference.py#L245-L267"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The parameters <span class="math notranslate nohighlight">\(\theta\)</span>, with shape <span class="math notranslate nohighlight">\((N, D)\)</span>.</p></li>
+<li><p><strong>x</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The observation <span class="math notranslate nohighlight">\(x\)</span>, with shape <span class="math notranslate nohighlight">\((N, L)\)</span>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The scalar loss <span class="math notranslate nohighlight">\(l\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="lampe.inference.NPE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.inference.</span></span><span class="sig-name descname"><span class="pre">NPE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moments=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">build=&lt;class</span> <span class="pre">'lampe.nn.flows.MAF'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.inference.NPE" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/inference.py#L270-L326"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Creates a neural posterior estimation (NPE) normalizing flow.</p>
+<p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The dimensionality <span class="math notranslate nohighlight">\(D\)</span> of the parameter space.</p></li>
+<li><p><strong>x_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The dimensionality <span class="math notranslate nohighlight">\(L\)</span> of the observation space.</p></li>
+<li><p><strong>moments</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><em>Tuple</em></a><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>, </em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>]</em>) – The parameters moments <span class="math notranslate nohighlight">\(\mu\)</span> and <span class="math notranslate nohighlight">\(\sigma\)</span>. If provided,
+the moments are used to standardize the parameters.</p></li>
+<li><p><strong>build</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em><em>, </em><a class="reference internal" href="nn/flows.html#lampe.nn.flows.FlowModule" title="lampe.nn.flows.FlowModule"><em>FlowModule</em></a><em>]</em>) – The flow constructor (e.g. <a class="reference internal" href="nn/flows.html#lampe.nn.flows.MAF" title="lampe.nn.flows.MAF"><code class="xref py py-class docutils literal notranslate"><span class="pre">lampe.nn.flows.MAF</span></code></a>).</p></li>
+<li><p><strong>kwargs</strong> – Keyword arguments passed to the constructor.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="lampe.inference.NPE.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.inference.NPE.forward" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/inference.py#L300-L312"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The parameters <span class="math notranslate nohighlight">\(\theta\)</span>, with shape <span class="math notranslate nohighlight">\((*, D)\)</span>.</p></li>
+<li><p><strong>x</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The observation <span class="math notranslate nohighlight">\(x\)</span>, with shape <span class="math notranslate nohighlight">\((*, L)\)</span>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The log-density <span class="math notranslate nohighlight">\(\log p_\phi(\theta | x)\)</span>, with shape <span class="math notranslate nohighlight">\((*,)\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="lampe.inference.NPE.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.inference.NPE.sample" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/lib/python3.8/site-packages/torch/autograd/grad_mode.py#L314-L326"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The observation <span class="math notranslate nohighlight">\(x\)</span>, with shape <span class="math notranslate nohighlight">\((*, L)\)</span>.</p></li>
+<li><p><strong>shape</strong> (<em>Size</em>) – TODO</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The samples <span class="math notranslate nohighlight">\(\theta \sim p_\phi(\theta | x)\)</span>,
+with shape <span class="math notranslate nohighlight">\((*, S, D)\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="lampe.inference.NPELoss">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.inference.</span></span><span class="sig-name descname"><span class="pre">NPELoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">estimator</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.inference.NPELoss" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/inference.py#L329-L357"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Creates a module that calculates the loss <span class="math notranslate nohighlight">\(l\)</span> of a NPE normalizing flow
+<span class="math notranslate nohighlight">\(p_\phi\)</span>. Given a batch of <span class="math notranslate nohighlight">\(N\)</span> pairs <span class="math notranslate nohighlight">\(\{ (\theta_i, x_i) \}\)</span>,
+the module returns</p>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[l = \frac{1}{N} \sum_{i = 1}^N -\log p_\phi(\theta_i | x_i) .\]</div></div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>estimator</strong> (<em>Module</em>) – A normalizing flow <span class="math notranslate nohighlight">\(p_\phi(\theta | x)\)</span>.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="lampe.inference.NPELoss.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.inference.NPELoss.forward" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/inference.py#L345-L357"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The parameters <span class="math notranslate nohighlight">\(\theta\)</span>, with shape <span class="math notranslate nohighlight">\((N, D)\)</span>.</p></li>
+<li><p><strong>x</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The observation <span class="math notranslate nohighlight">\(x\)</span>, with shape <span class="math notranslate nohighlight">\((N, L)\)</span>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The scalar loss <span class="math notranslate nohighlight">\(l\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="lampe.inference.AMNPE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.inference.</span></span><span class="sig-name descname"><span class="pre">AMNPE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_dim</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.inference.AMNPE" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/inference.py#L360-L412"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Creates an arbitrary marginal neural posterior estimation (AMNPE)
+normalizing flow.</p>
+<p>TODO</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The dimensionality <span class="math notranslate nohighlight">\(D\)</span> of the parameter space.</p></li>
+<li><p><strong>x_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The dimensionality <span class="math notranslate nohighlight">\(L\)</span> of the observation space.</p></li>
+<li><p><strong>args</strong> – Positional arguments passed to <a class="reference internal" href="#lampe.inference.NPE" title="lampe.inference.NPE"><code class="xref py py-class docutils literal notranslate"><span class="pre">NPE</span></code></a>.</p></li>
+<li><p><strong>kwargs</strong> – Keyword arguments passed to <a class="reference internal" href="#lampe.inference.NPE" title="lampe.inference.NPE"><code class="xref py py-class docutils literal notranslate"><span class="pre">NPE</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="lampe.inference.AMNPE.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.inference.AMNPE.forward" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/inference.py#L382-L395"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The parameters <span class="math notranslate nohighlight">\(\theta\)</span>, with shape <span class="math notranslate nohighlight">\((*, D)\)</span>.</p></li>
+<li><p><strong>x</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The observation <span class="math notranslate nohighlight">\(x\)</span>, with shape <span class="math notranslate nohighlight">\((*, L)\)</span>.</p></li>
+<li><p><strong>b</strong> (<em>BoolTensor</em>) – A binary mask <span class="math notranslate nohighlight">\(b\)</span>, with shape <span class="math notranslate nohighlight">\((*, D)\)</span>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The log-density <span class="math notranslate nohighlight">\(\log p_\phi(\theta | x, b)\)</span>, with shape <span class="math notranslate nohighlight">\((*,)\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="lampe.inference.AMNPE.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.inference.AMNPE.sample" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/lib/python3.8/site-packages/torch/autograd/grad_mode.py#L397-L412"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The observation <span class="math notranslate nohighlight">\(x\)</span>, with shape <span class="math notranslate nohighlight">\((*, L)\)</span>.</p></li>
+<li><p><strong>b</strong> (<em>BoolTensor</em>) – A binary mask <span class="math notranslate nohighlight">\(b\)</span>, with shape <span class="math notranslate nohighlight">\((D,)\)</span>.</p></li>
+<li><p><strong>shape</strong> (<em>Size</em>) – TODO</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The samples <span class="math notranslate nohighlight">\(\theta_b \sim p_\phi(\theta_b | x, b)\)</span>,
+with shape <span class="math notranslate nohighlight">\((*, S, D)\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="lampe.inference.AMNPELoss">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.inference.</span></span><span class="sig-name descname"><span class="pre">AMNPELoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">estimator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_dist</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.inference.AMNPELoss" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/inference.py#L415-L457"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Creates a module that calculates the loss <span class="math notranslate nohighlight">\(l\)</span> of an AMNPE normalizing flow
+<span class="math notranslate nohighlight">\(p_\phi\)</span>. Given a batch of <span class="math notranslate nohighlight">\(N\)</span> pairs <span class="math notranslate nohighlight">\(\{ (\theta_i, x_i) \}\)</span>,
+the module returns</p>
+<div class="math-wrapper"><div class="math notranslate nohighlight">
+\[l = \frac{1}{N} \sum_{i = 1}^N
+-\log p_\phi(\theta_i \odot b_i + \theta_{i + 1} \odot (1 - b_i) | x_i, b_i)\]</div></div>
+<p>where the binary masks <span class="math notranslate nohighlight">\(b_i\)</span> are sampled from a distribution <span class="math notranslate nohighlight">\(P(b)\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>estimator</strong> (<em>Module</em>) – A normalizing flow <span class="math notranslate nohighlight">\(p_\phi(\theta | x, b)\)</span>.</p></li>
+<li><p><strong>mask_dist</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/distributions.html#torch.distributions.distribution.Distribution" title="(in PyTorch v1.11.0)"><em>Distribution</em></a>) – A binary mask distribution <span class="math notranslate nohighlight">\(P(b)\)</span>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="lampe.inference.AMNPELoss.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.inference.AMNPELoss.forward" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/inference.py#L440-L457"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The parameters <span class="math notranslate nohighlight">\(\theta\)</span>, with shape <span class="math notranslate nohighlight">\((N, D)\)</span>.</p></li>
+<li><p><strong>x</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The observation <span class="math notranslate nohighlight">\(x\)</span>, with shape <span class="math notranslate nohighlight">\((N, L)\)</span>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The scalar loss <span class="math notranslate nohighlight">\(l\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="lampe.inference.MetropolisHastings">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.inference.</span></span><span class="sig-name descname"><span class="pre">MetropolisHastings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_f</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.inference.MetropolisHastings" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/inference.py#L460-L559"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Creates a batched Metropolis-Hastings sampler.</p>
+<p>Metropolis-Hastings is a Markov chain Monte Carlo (MCMC) sampling algorithm used to
+sample from intractable distributions <span class="math notranslate nohighlight">\(p(x)\)</span> whose density is proportial to a
+tracatble function <span class="math notranslate nohighlight">\(f(x)\)</span>, with <span class="math notranslate nohighlight">\(x \in \mathcal{X}\)</span>. The algorithm
+consists in repeating the following routine for <span class="math notranslate nohighlight">\(t = 1\)</span> to <span class="math notranslate nohighlight">\(T\)</span>, where
+<span class="math notranslate nohighlight">\(x_0\)</span> is the initial sample and <span class="math notranslate nohighlight">\(q(x' | x)\)</span> is a pre-defined transition
+distribution.</p>
+<ol class="arabic simple">
+<li><p>sample <span class="math notranslate nohighlight">\(x' \sim q(x' | x_{t-1})\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\displaystyle \alpha \gets \frac{f(x')}{f(x_{t-1})} \frac{q(x_{t-1} | x')}{q(x' | x_{t-1})}\)</span></p></li>
+<li><p>sample <span class="math notranslate nohighlight">\(u \sim \mathcal{U}(0, 1)\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(x_t \gets \begin{cases} x' &amp; \text{if } u \leq \alpha \\ x_{t-1} &amp; \text{otherwise} \end{cases}\)</span></p></li>
+</ol>
+<p>Asymptotically, i.e. when <span class="math notranslate nohighlight">\(T \to \infty\)</span>, the distribution of samples
+<span class="math notranslate nohighlight">\(x_t\)</span> is guaranteed to converge towards <span class="math notranslate nohighlight">\(p(x)\)</span>. In this implementation,
+a Gaussian transition <span class="math notranslate nohighlight">\(q(x' | x) = \mathcal{N}(x'; x, \Sigma)\)</span> is used, which
+can be modified by subclassing <a class="reference internal" href="#lampe.inference.MetropolisHastings" title="lampe.inference.MetropolisHastings"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetropolisHastings</span></code></a>.</p>
+<p class="rubric">Wikipedia</p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm">https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_0</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – A batch of initial points <span class="math notranslate nohighlight">\(x_0\)</span>, with shape <span class="math notranslate nohighlight">\((*, L)\)</span>.</p></li>
+<li><p><strong>f</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>]</em><em>, </em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>]</em>) – A function <span class="math notranslate nohighlight">\(f(x)\)</span> proportional to a density function <span class="math notranslate nohighlight">\(p(x)\)</span>.</p></li>
+<li><p><strong>log_f</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>]</em><em>, </em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>]</em>) – The logarithm <span class="math notranslate nohighlight">\(\log f(x)\)</span> of a function proportional
+to <span class="math notranslate nohighlight">\(p(x)\)</span>.</p></li>
+<li><p><strong>sigma</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><em>Union</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>, </em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>]</em>) – The standard deviation of the Gaussian transition.
+Either a scalar or a vector.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x_0</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">log_f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sampler</span> <span class="o">=</span> <span class="n">MetropolisHastings</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">log_f</span><span class="o">=</span><span class="n">log_f</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sampler</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">8</span><span class="p">,</span> <span class="n">burn</span><span class="o">=</span><span class="mi">2</span><span class="o">**</span><span class="mi">7</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">2</span><span class="o">**</span><span class="mi">2</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">torch.Size([32, 128, 7])</span>
+</pre></div>
+</div>
+</dd></dl>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="masks.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">lampe.masks</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="data.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">lampe.data</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2021-2022, François Rozet
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and 
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/francois-rozet/lampe" aria-label="GitHub"><i class="fa-brands fa-github fa-lg"></i></a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/furo.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>

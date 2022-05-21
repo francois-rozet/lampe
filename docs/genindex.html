@@ -169,20 +169,23 @@
   <p class="caption" role="heading"><span class="caption-text">lampe</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="tutorials.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/01_npe.ipynb">1. NPE</a></li>
-<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/02_nre.ipynb">2. NRE</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/01_npe.ipynb">1. Neural posterior estimation</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/02_nre.ipynb">2. Neural ratio estimation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api/index.html">API</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/nn/index.html">lampe.nn</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/nn/flows.html">lampe.nn.flows</a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/nn/losses.html">lampe.nn.losses</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/distributions/index.html">lampe.distributions</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/distributions/transforms.html">lampe.distributions.transforms</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/data.html">lampe.data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/inference.html">lampe.inference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/masks.html">lampe.masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/plots.html">lampe.plots</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/priors.html">lampe.priors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/utils.html">lampe.utils</a></li>
 </ul>
 </li>
@@ -233,15 +236,17 @@
   <h2>A</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="api/nn/index.html#lampe.nn.AMNPE">AMNPE (class in lampe.nn)</a>
+        <li><a href="api/inference.html#lampe.inference.AMNPE">AMNPE (class in lampe.inference)</a>
 </li>
-        <li><a href="api/nn/losses.html#lampe.nn.losses.AMNPELoss">AMNPELoss (class in lampe.nn.losses)</a>
+        <li><a href="api/inference.html#lampe.inference.AMNPELoss">AMNPELoss (class in lampe.inference)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="api/nn/index.html#lampe.nn.AMNRE">AMNRE (class in lampe.nn)</a>
+        <li><a href="api/inference.html#lampe.inference.AMNRE">AMNRE (class in lampe.inference)</a>
 </li>
-        <li><a href="api/nn/losses.html#lampe.nn.losses.AMNRELoss">AMNRELoss (class in lampe.nn.losses)</a>
+        <li><a href="api/inference.html#lampe.inference.AMNRELoss">AMNRELoss (class in lampe.inference)</a>
+</li>
+        <li><a href="api/distributions/transforms.html#lampe.distributions.transforms.AutoregressiveTransform">AutoregressiveTransform (class in lampe.distributions.transforms)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -255,7 +260,7 @@
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="api/priors.html#lampe.priors.BoxUniform">BoxUniform (class in lampe.priors)</a>
+        <li><a href="api/distributions/index.html#lampe.distributions.BoxUniform">BoxUniform (class in lampe.distributions)</a>
 </li>
         <li><a href="api/utils.html#lampe.utils.broadcast">broadcast() (in module lampe.utils)</a>
 </li>
@@ -273,7 +278,7 @@
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/plots.html#lampe.plots.corner">corner() (in module lampe.plots)</a>
 </li>
-        <li><a href="api/priors.html#lampe.priors.CosTransform">CosTransform (class in lampe.priors)</a>
+        <li><a href="api/distributions/transforms.html#lampe.distributions.transforms.CosTransform">CosTransform (class in lampe.distributions.transforms)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -283,7 +288,13 @@
   <h2>D</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="api/priors.html#lampe.priors.DiagNormal">DiagNormal (class in lampe.priors)</a>
+        <li><a href="api/utils.html#lampe.utils.deepto">deepto() (in module lampe.utils)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/distributions/index.html#lampe.distributions.DiagNormal">DiagNormal (class in lampe.distributions)</a>
+</li>
+        <li><a href="api/nn/flows.html#lampe.nn.flows.DistributionModule">DistributionModule (class in lampe.nn.flows)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -293,22 +304,30 @@
   <h2>F</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="api/nn/index.html#lampe.nn.AMNPE.forward">forward() (lampe.nn.AMNPE method)</a>
+        <li><a href="api/nn/flows.html#lampe.nn.flows.FlowModule">FlowModule (class in lampe.nn.flows)</a>
+</li>
+        <li><a href="api/inference.html#lampe.inference.AMNPE.forward">forward() (lampe.inference.AMNPE method)</a>
 
         <ul>
-          <li><a href="api/nn/index.html#lampe.nn.AMNRE.forward">(lampe.nn.AMNRE method)</a>
+          <li><a href="api/inference.html#lampe.inference.AMNPELoss.forward">(lampe.inference.AMNPELoss method)</a>
 </li>
-          <li><a href="api/nn/losses.html#lampe.nn.losses.AMNPELoss.forward">(lampe.nn.losses.AMNPELoss method)</a>
+          <li><a href="api/inference.html#lampe.inference.AMNRE.forward">(lampe.inference.AMNRE method)</a>
 </li>
-          <li><a href="api/nn/losses.html#lampe.nn.losses.AMNRELoss.forward">(lampe.nn.losses.AMNRELoss method)</a>
+          <li><a href="api/inference.html#lampe.inference.AMNRELoss.forward">(lampe.inference.AMNRELoss method)</a>
 </li>
-          <li><a href="api/nn/losses.html#lampe.nn.losses.NPELoss.forward">(lampe.nn.losses.NPELoss method)</a>
+          <li><a href="api/inference.html#lampe.inference.NPE.forward">(lampe.inference.NPE method)</a>
 </li>
-          <li><a href="api/nn/losses.html#lampe.nn.losses.NRELoss.forward">(lampe.nn.losses.NRELoss method)</a>
+          <li><a href="api/inference.html#lampe.inference.NPELoss.forward">(lampe.inference.NPELoss method)</a>
 </li>
-          <li><a href="api/nn/index.html#lampe.nn.NPE.forward">(lampe.nn.NPE method)</a>
+          <li><a href="api/inference.html#lampe.inference.NRE.forward">(lampe.inference.NRE method)</a>
 </li>
-          <li><a href="api/nn/index.html#lampe.nn.NRE.forward">(lampe.nn.NRE method)</a>
+          <li><a href="api/inference.html#lampe.inference.NRELoss.forward">(lampe.inference.NRELoss method)</a>
+</li>
+          <li><a href="api/nn/flows.html#lampe.nn.flows.DistributionModule.forward">(lampe.nn.flows.DistributionModule method)</a>
+</li>
+          <li><a href="api/nn/flows.html#lampe.nn.flows.FlowModule.forward">(lampe.nn.flows.FlowModule method)</a>
+</li>
+          <li><a href="api/nn/flows.html#lampe.nn.flows.TransformModule.forward">(lampe.nn.flows.TransformModule method)</a>
 </li>
         </ul></li>
     </ul></td>
@@ -323,6 +342,8 @@
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/distributions/index.html#lampe.distributions.GeneralizedNormal">GeneralizedNormal (class in lampe.distributions)</a>
+</li>
         <li><a href="api/utils.html#lampe.utils.gridapply">gridapply() (in module lampe.utils)</a>
 </li>
     </ul></td>
@@ -343,7 +364,7 @@
   <h2>J</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="api/priors.html#lampe.priors.Joint">Joint (class in lampe.priors)</a>
+        <li><a href="api/distributions/index.html#lampe.distributions.Joint">Joint (class in lampe.distributions)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
@@ -365,12 +386,35 @@
 </li>
         </ul></li>
         <li>
+    lampe.distributions
+
+        <ul>
+          <li><a href="api/distributions/index.html#module-lampe.distributions">module</a>
+</li>
+        </ul></li>
+        <li>
+    lampe.distributions.transforms
+
+        <ul>
+          <li><a href="api/distributions/transforms.html#module-lampe.distributions.transforms">module</a>
+</li>
+        </ul></li>
+        <li>
+    lampe.inference
+
+        <ul>
+          <li><a href="api/inference.html#module-lampe.inference">module</a>
+</li>
+        </ul></li>
+        <li>
     lampe.masks
 
         <ul>
           <li><a href="api/masks.html#module-lampe.masks">module</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     lampe.nn
 
@@ -385,27 +429,11 @@
           <li><a href="api/nn/flows.html#module-lampe.nn.flows">module</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
-        <li>
-    lampe.nn.losses
-
-        <ul>
-          <li><a href="api/nn/losses.html#module-lampe.nn.losses">module</a>
-</li>
-        </ul></li>
         <li>
     lampe.plots
 
         <ul>
           <li><a href="api/plots.html#module-lampe.plots">module</a>
-</li>
-        </ul></li>
-        <li>
-    lampe.priors
-
-        <ul>
-          <li><a href="api/priors.html#module-lampe.priors">module</a>
 </li>
         </ul></li>
         <li>
@@ -415,8 +443,6 @@
           <li><a href="api/utils.html#module-lampe.utils">module</a>
 </li>
         </ul></li>
-        <li><a href="api/nn/flows.html#lampe.nn.flows.NormalizingFlow.log_prob">log_prob() (lampe.nn.flows.NormalizingFlow method)</a>
-</li>
     </ul></td>
   </tr></table>
 </section>
@@ -429,11 +455,15 @@
 </li>
         <li><a href="api/masks.html#lampe.masks.mask2str">mask2str() (in module lampe.masks)</a>
 </li>
-        <li><a href="api/priors.html#lampe.priors.Maximum">Maximum (class in lampe.priors)</a>
+        <li><a href="api/nn/flows.html#lampe.nn.flows.MaskedAutoregressiveTransform">MaskedAutoregressiveTransform (class in lampe.nn.flows)</a>
 </li>
-        <li><a href="api/utils.html#lampe.utils.MetropolisHastings">MetropolisHastings (class in lampe.utils)</a>
+        <li><a href="api/nn/index.html#lampe.nn.MaskedMLP">MaskedMLP (class in lampe.nn)</a>
 </li>
-        <li><a href="api/priors.html#lampe.priors.Minimum">Minimum (class in lampe.priors)</a>
+        <li><a href="api/distributions/index.html#lampe.distributions.Maximum">Maximum (class in lampe.distributions)</a>
+</li>
+        <li><a href="api/inference.html#lampe.inference.MetropolisHastings">MetropolisHastings (class in lampe.inference)</a>
+</li>
+        <li><a href="api/distributions/index.html#lampe.distributions.Minimum">Minimum (class in lampe.distributions)</a>
 </li>
         <li><a href="api/nn/index.html#lampe.nn.MLP">MLP (class in lampe.nn)</a>
 </li>
@@ -443,21 +473,31 @@
         <ul>
           <li><a href="api/data.html#module-lampe.data">lampe.data</a>
 </li>
+          <li><a href="api/distributions/index.html#module-lampe.distributions">lampe.distributions</a>
+</li>
+          <li><a href="api/distributions/transforms.html#module-lampe.distributions.transforms">lampe.distributions.transforms</a>
+</li>
+          <li><a href="api/inference.html#module-lampe.inference">lampe.inference</a>
+</li>
           <li><a href="api/masks.html#module-lampe.masks">lampe.masks</a>
 </li>
           <li><a href="api/nn/index.html#module-lampe.nn">lampe.nn</a>
 </li>
           <li><a href="api/nn/flows.html#module-lampe.nn.flows">lampe.nn.flows</a>
 </li>
-          <li><a href="api/nn/losses.html#module-lampe.nn.losses">lampe.nn.losses</a>
-</li>
           <li><a href="api/plots.html#module-lampe.plots">lampe.plots</a>
-</li>
-          <li><a href="api/priors.html#module-lampe.priors">lampe.priors</a>
 </li>
           <li><a href="api/utils.html#module-lampe.utils">lampe.utils</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/distributions/transforms.html#lampe.distributions.transforms.MonotonicAffineTransform">MonotonicAffineTransform (class in lampe.distributions.transforms)</a>
+</li>
+        <li><a href="api/distributions/transforms.html#lampe.distributions.transforms.MonotonicRationalQuadraticSplineTransform">MonotonicRationalQuadraticSplineTransform (class in lampe.distributions.transforms)</a>
+</li>
+        <li><a href="api/distributions/transforms.html#lampe.distributions.transforms.MonotonicSOSTransform">MonotonicSOSTransform (class in lampe.distributions.transforms)</a>
+</li>
     </ul></td>
   </tr></table>
 </section>
@@ -468,17 +508,17 @@
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/plots.html#lampe.plots.nice_rc">nice_rc() (in module lampe.plots)</a>
 </li>
-        <li><a href="api/nn/flows.html#lampe.nn.flows.NormalizingFlow">NormalizingFlow (class in lampe.nn.flows)</a>
+        <li><a href="api/distributions/index.html#lampe.distributions.NormalizingFlow">NormalizingFlow (class in lampe.distributions)</a>
 </li>
-        <li><a href="api/nn/index.html#lampe.nn.NPE">NPE (class in lampe.nn)</a>
+        <li><a href="api/inference.html#lampe.inference.NPE">NPE (class in lampe.inference)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="api/nn/losses.html#lampe.nn.losses.NPELoss">NPELoss (class in lampe.nn.losses)</a>
+        <li><a href="api/inference.html#lampe.inference.NPELoss">NPELoss (class in lampe.inference)</a>
 </li>
-        <li><a href="api/nn/index.html#lampe.nn.NRE">NRE (class in lampe.nn)</a>
+        <li><a href="api/inference.html#lampe.inference.NRE">NRE (class in lampe.inference)</a>
 </li>
-        <li><a href="api/nn/losses.html#lampe.nn.losses.NRELoss">NRELoss (class in lampe.nn.losses)</a>
+        <li><a href="api/inference.html#lampe.inference.NRELoss">NRELoss (class in lampe.inference)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -487,6 +527,10 @@
 <section id="P" class="genindex-section">
   <h2>P</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/distributions/transforms.html#lampe.distributions.transforms.PermutationTransform">PermutationTransform (class in lampe.distributions.transforms)</a>
+</li>
+    </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/utils.html#lampe.utils.PlateauDetector">PlateauDetector (class in lampe.utils)</a>
 </li>
@@ -500,13 +544,11 @@
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/plots.html#lampe.plots.rank_ecdf">rank_ecdf() (in module lampe.plots)</a>
 </li>
-        <li><a href="api/nn/index.html#lampe.nn.ResBlock">ResBlock (class in lampe.nn)</a>
-</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="api/nn/index.html#lampe.nn.ResMLP">ResMLP (class in lampe.nn)</a>
+        <li><a href="api/nn/index.html#lampe.nn.ResBlock">ResBlock (class in lampe.nn)</a>
 </li>
-        <li><a href="api/nn/flows.html#lampe.nn.flows.NormalizingFlow.rsample">rsample() (lampe.nn.flows.NormalizingFlow method)</a>
+        <li><a href="api/nn/index.html#lampe.nn.ResMLP">ResMLP (class in lampe.nn)</a>
 </li>
     </ul></td>
   </tr></table>
@@ -516,19 +558,19 @@
   <h2>S</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="api/nn/index.html#lampe.nn.AMNPE.sample">sample() (lampe.nn.AMNPE method)</a>
+        <li><a href="api/inference.html#lampe.inference.AMNPE.sample">sample() (lampe.inference.AMNPE method)</a>
 
         <ul>
-          <li><a href="api/nn/index.html#lampe.nn.NPE.sample">(lampe.nn.NPE method)</a>
+          <li><a href="api/inference.html#lampe.inference.NPE.sample">(lampe.inference.NPE method)</a>
 </li>
         </ul></li>
         <li><a href="api/masks.html#lampe.masks.SelectionMask">SelectionMask (class in lampe.masks)</a>
 </li>
-        <li><a href="api/priors.html#lampe.priors.SinTransform">SinTransform (class in lampe.priors)</a>
+        <li><a href="api/distributions/transforms.html#lampe.distributions.transforms.SinTransform">SinTransform (class in lampe.distributions.transforms)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="api/priors.html#lampe.priors.Sort">Sort (class in lampe.priors)</a>
+        <li><a href="api/distributions/index.html#lampe.distributions.Sort">Sort (class in lampe.distributions)</a>
 </li>
         <li><a href="api/utils.html#lampe.utils.starcompose">starcompose() (in module lampe.utils)</a>
 </li>
@@ -544,11 +586,15 @@
   <h2>T</h2>
   <table style="width: 100%" class="indextable genindextable"><tr>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="api/priors.html#lampe.priors.TopK">TopK (class in lampe.priors)</a>
+        <li><a href="api/distributions/index.html#lampe.distributions.TopK">TopK (class in lampe.distributions)</a>
+</li>
+        <li><a href="api/distributions/index.html#lampe.distributions.TransformedUniform">TransformedUniform (class in lampe.distributions)</a>
 </li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
-        <li><a href="api/priors.html#lampe.priors.TransformedUniform">TransformedUniform (class in lampe.priors)</a>
+        <li><a href="api/nn/flows.html#lampe.nn.flows.TransformModule">TransformModule (class in lampe.nn.flows)</a>
+</li>
+        <li><a href="api/distributions/index.html#lampe.distributions.Truncated">Truncated (class in lampe.distributions)</a>
 </li>
     </ul></td>
   </tr></table>

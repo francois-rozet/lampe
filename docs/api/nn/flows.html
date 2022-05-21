@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="lampe.nn.losses" href="losses.html" /><link rel="prev" title="lampe.nn" href="index.html" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="lampe.distributions" href="../distributions/index.html" /><link rel="prev" title="lampe.nn" href="index.html" />
 
     <link rel="shortcut icon" href="../../_static/logo_dark.svg"/><meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
         <title>lampe.nn.flows - LAMPE</title>
@@ -171,20 +171,23 @@
   <p class="caption" role="heading"><span class="caption-text">lampe</span></p>
 <ul class="current">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/01_npe.ipynb">1. NPE</a></li>
-<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/02_nre.ipynb">2. NRE</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/01_npe.ipynb">1. Neural posterior estimation</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/02_nre.ipynb">2. Neural ratio estimation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current has-children"><a class="reference internal" href="index.html">lampe.nn</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#">lampe.nn.flows</a></li>
-<li class="toctree-l3"><a class="reference internal" href="losses.html">lampe.nn.losses</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../distributions/index.html">lampe.distributions</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../distributions/transforms.html">lampe.distributions.transforms</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../data.html">lampe.data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../inference.html">lampe.inference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../masks.html">lampe.masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plots.html">lampe.plots</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../priors.html">lampe.priors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../utils.html">lampe.utils</a></li>
 </ul>
 </li>
@@ -229,47 +232,100 @@
           <section id="module-lampe.nn.flows">
 <span id="lampe-nn-flows"></span><h1>lampe.nn.flows<a class="headerlink" href="#module-lampe.nn.flows" title="Permalink to this headline">#</a></h1>
 <p>Flows and parametric distributions.</p>
-<div class="admonition-todo admonition">
-<p class="admonition-title">TODO</p>
-<ul class="simple">
-<li><p>Finish documentation.</p></li>
-<li><p>Drop <code class="xref py py-mod docutils literal notranslate"><span class="pre">nflows</span></code>.</p></li>
-<li><p>Find references.</p></li>
-</ul>
-</div>
 <dl class="py class">
-<dt class="sig sig-object py" id="lampe.nn.flows.NormalizingFlow">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.nn.flows.</span></span><span class="sig-name descname"><span class="pre">NormalizingFlow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transforms</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.nn.flows.NormalizingFlow" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/nn/flows.py#L21-L57"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
-<dd><p>Creates a normalizing flow <span class="math notranslate nohighlight">\(p_\phi(x | y)\)</span>.</p>
-<p>TODO</p>
+<dt class="sig sig-object py" id="lampe.nn.flows.DistributionModule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.nn.flows.</span></span><span class="sig-name descname"><span class="pre">DistributionModule</span></span><a class="headerlink" href="#lampe.nn.flows.DistributionModule" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/nn/flows.py#L22-L34"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Abstract distribution module.</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="lampe.nn.flows.DistributionModule.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lampe.nn.flows.DistributionModule.forward" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/nn/flows.py#L25-L34"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>y</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>]</em>) – A context <span class="math notranslate nohighlight">\(y\)</span>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A distribution <span class="math notranslate nohighlight">\(p(x | y)\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/distributions.html#torch.distributions.distribution.Distribution" title="(in PyTorch v1.11.0)"><em>Distribution</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="lampe.nn.flows.TransformModule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.nn.flows.</span></span><span class="sig-name descname"><span class="pre">TransformModule</span></span><a class="headerlink" href="#lampe.nn.flows.TransformModule" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/nn/flows.py#L37-L49"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Abstract transform module.</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="lampe.nn.flows.TransformModule.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lampe.nn.flows.TransformModule.forward" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/nn/flows.py#L40-L49"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>y</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>]</em>) – A context <span class="math notranslate nohighlight">\(y\)</span>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A transform <span class="math notranslate nohighlight">\(y = f(x | y)\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://pytorch.org/docs/stable/distributions.html#torch.distributions.transforms.Transform" title="(in PyTorch v1.11.0)"><em>Transform</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="lampe.nn.flows.FlowModule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.nn.flows.</span></span><span class="sig-name descname"><span class="pre">FlowModule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transforms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.nn.flows.FlowModule" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/nn/flows.py#L52-L81"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Creates a normalizing flow module.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>base</strong> (<em>Distribution</em>) – A base distribution.</p></li>
-<li><p><strong>transforms</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><em>List</em></a><em>[</em><em>Transform</em><em>]</em>) – A list of parametric conditional transforms.</p></li>
+<li><p><strong>transforms</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><em>List</em></a><em>[</em><a class="reference internal" href="#lampe.nn.flows.TransformModule" title="lampe.nn.flows.TransformModule"><em>TransformModule</em></a><em>]</em>) – A list of transforms.</p></li>
+<li><p><strong>base</strong> (<a class="reference internal" href="#lampe.nn.flows.DistributionModule" title="lampe.nn.flows.DistributionModule"><em>DistributionModule</em></a>) – A distribution.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="lampe.nn.flows.NormalizingFlow.log_prob">
-<span class="sig-name descname"><span class="pre">log_prob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.nn.flows.NormalizingFlow.log_prob" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/nn/flows.py#L37-L43"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
-<dd><p>Returns the log-density <span class="math notranslate nohighlight">\(\log p_\phi(x | y)\)</span>.</p>
-<dl class="field-list simple">
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="lampe.nn.flows.NormalizingFlow.rsample">
-<span class="sig-name descname"><span class="pre">rsample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.nn.flows.NormalizingFlow.rsample" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/nn/flows.py#L49-L57"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
-<dd><p>Samples from the conditional distribution <span class="math notranslate nohighlight">\(p_\phi(x | y)\)</span>.</p>
-<dl class="field-list simple">
+<dt class="sig sig-object py" id="lampe.nn.flows.FlowModule.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.nn.flows.FlowModule.forward" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/nn/flows.py#L70-L81"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>y</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>]</em>) – A context <span class="math notranslate nohighlight">\(y\)</span>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A normalizing flow <span class="math notranslate nohighlight">\(p(x | y)\)</span>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../distributions/index.html#lampe.distributions.NormalizingFlow" title="lampe.distributions.NormalizingFlow"><em>NormalizingFlow</em></a></p>
+</dd>
 </dl>
 </dd></dl>
 </dd></dl>
 <dl class="py class">
+<dt class="sig sig-object py" id="lampe.nn.flows.MaskedAutoregressiveTransform">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.nn.flows.</span></span><span class="sig-name descname"><span class="pre">MaskedAutoregressiveTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">features,</span> <span class="pre">context=0,</span> <span class="pre">order=None,</span> <span class="pre">passes=-1,</span> <span class="pre">univariate=&lt;class</span> <span class="pre">'lampe.distributions.transforms.MonotonicAffineTransform'&gt;,</span> <span class="pre">shapes=[(),</span> <span class="pre">()],</span> <span class="pre">**kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.nn.flows.MaskedAutoregressiveTransform" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/nn/flows.py#L152-L214"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Creates a masked autoregressive transform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>features</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The number of features.</p></li>
+<li><p><strong>context</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The number of context features.</p></li>
+<li><p><strong>order</strong> (<em>LongTensor</em>) – The feature ordering. If <code class="code highlight python docutils literal notranslate"><span class="kc"><span class="pre">None</span></span></code>, use <code class="code highlight python docutils literal notranslate"><span class="nb"><span class="pre">range</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">)</span></span></code> instead.</p></li>
+<li><p><strong>passes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The number of passes for the inverse transformation.</p></li>
+<li><p><strong>univariate</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>[</em><em>[</em><em>...</em><em>]</em><em>, </em><a class="reference external" href="https://pytorch.org/docs/stable/distributions.html#torch.distributions.transforms.Transform" title="(in PyTorch v1.11.0)"><em>Transform</em></a><em>]</em>) – A univariate transformation constructor.</p></li>
+<li><p><strong>shapes</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><em>List</em></a><em>[</em><em>Size</em><em>]</em>) – The shapes of the univariate transformation parameters.</p></li>
+<li><p><strong>kwargs</strong> – Keyword arguments passed to <a class="reference internal" href="index.html#lampe.nn.MaskedMLP" title="lampe.nn.MaskedMLP"><code class="xref py py-class docutils literal notranslate"><span class="pre">lampe.nn.MaskedMLP</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py class">
 <dt class="sig sig-object py" id="lampe.nn.flows.MAF">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.nn.flows.</span></span><span class="sig-name descname"><span class="pre">MAF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'affine'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_transforms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lu_linear</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.nn.flows.MAF" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/nn/flows.py#L60-L131"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.nn.flows.</span></span><span class="sig-name descname"><span class="pre">MAF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transforms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linear</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.nn.flows.MAF" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/nn/flows.py#L217-L255"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
 <dd><p>Creates a masked autoregressive flow (MAF).</p>
-<p>TODO</p>
 <p class="rubric">References</p>
 <p>Masked Autoregressive Flow for Density Estimation
 (Papamakarios et al., 2017)
@@ -277,12 +333,10 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The input size.</p></li>
-<li><p><strong>y_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The context size.</p></li>
-<li><p><strong>arch</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The flow architecture.</p></li>
-<li><p><strong>num_transforms</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The number of transforms.</p></li>
-<li><p><strong>moments</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><em>Tuple</em></a><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>, </em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>]</em>) – The input moments (mu, sigma) for standardization.</p></li>
-<li><p><strong>kwargs</strong> – Keyword arguments passed to the transform.</p></li>
+<li><p><strong>features</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The number of features.</p></li>
+<li><p><strong>context</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The number of context features.</p></li>
+<li><p><strong>transforms</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The number of autoregressive transforms.</p></li>
+<li><p><strong>kwargs</strong> – Keyword arguments passed to <a class="reference internal" href="#lampe.nn.flows.MaskedAutoregressiveTransform" title="lampe.nn.flows.MaskedAutoregressiveTransform"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaskedAutoregressiveTransform</span></code></a>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -294,12 +348,12 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="losses.html">
+          <a class="next-page" href="../distributions/index.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">lampe.nn.losses</div>
+                <div class="title">lampe.distributions</div>
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>

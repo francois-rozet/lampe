@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="lampe.plots" href="plots.html" /><link rel="prev" title="lampe.data" href="data.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="lampe.plots" href="plots.html" /><link rel="prev" title="lampe.inference" href="inference.html" />
 
     <link rel="shortcut icon" href="../_static/logo_dark.svg"/><meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
         <title>lampe.masks - LAMPE</title>
@@ -171,20 +171,23 @@
   <p class="caption" role="heading"><span class="caption-text">lampe</span></p>
 <ul class="current">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/01_npe.ipynb">1. NPE</a></li>
-<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/02_nre.ipynb">2. NRE</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/01_npe.ipynb">1. Neural posterior estimation</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/02_nre.ipynb">2. Neural ratio estimation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 has-children"><a class="reference internal" href="nn/index.html">lampe.nn</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="nn/flows.html">lampe.nn.flows</a></li>
-<li class="toctree-l3"><a class="reference internal" href="nn/losses.html">lampe.nn.losses</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="distributions/index.html">lampe.distributions</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="distributions/transforms.html">lampe.distributions.transforms</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="data.html">lampe.data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inference.html">lampe.inference</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">lampe.masks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plots.html">lampe.plots</a></li>
-<li class="toctree-l2"><a class="reference internal" href="priors.html">lampe.priors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="utils.html">lampe.utils</a></li>
 </ul>
 </li>
@@ -231,7 +234,7 @@
 <p>Masking helpers.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="lampe.masks.mask2str">
-<span class="sig-prename descclassname"><span class="pre">lampe.masks.</span></span><span class="sig-name descname"><span class="pre">mask2str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.masks.mask2str" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/masks.py#L12-L24"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<span class="sig-prename descclassname"><span class="pre">lampe.masks.</span></span><span class="sig-name descname"><span class="pre">mask2str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.masks.mask2str" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/masks.py#L11-L23"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
 <dd><p>Represents a binary mask as a string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -247,7 +250,7 @@
 </dd></dl>
 <dl class="py function">
 <dt class="sig sig-object py" id="lampe.masks.str2mask">
-<span class="sig-prename descclassname"><span class="pre">lampe.masks.</span></span><span class="sig-name descname"><span class="pre">str2mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.masks.str2mask" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/masks.py#L27-L38"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<span class="sig-prename descclassname"><span class="pre">lampe.masks.</span></span><span class="sig-name descname"><span class="pre">str2mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.masks.str2mask" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/masks.py#L26-L37"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
 <dd><p>Parses the string representation of a binary mask into a tensor.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -262,30 +265,27 @@
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="lampe.masks.BernoulliMask">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.masks.</span></span><span class="sig-name descname"><span class="pre">BernoulliMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.masks.BernoulliMask" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/masks.py#L41-L67"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.masks.</span></span><span class="sig-name descname"><span class="pre">BernoulliMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.masks.BernoulliMask" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/masks.py#L40-L68"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
 <dd><p>Creates a distribution <span class="math notranslate nohighlight">\(P(b)\)</span> over all binary masks <span class="math notranslate nohighlight">\(b\)</span> in the
 hypercube <span class="math notranslate nohighlight">\(\{0, 1\}^D\)</span> such that each bit <span class="math notranslate nohighlight">\(b_i\)</span> has a probability
-<span class="math notranslate nohighlight">\(p\)</span> of being positive.</p>
+<span class="math notranslate nohighlight">\(p_i\)</span> of being positive.</p>
 <div class="math-wrapper"><div class="math notranslate nohighlight">
-\[P(b) = \prod^D_{i = 1} p^{b_i} (1 - p)^{1 - b_i}\]</div></div>
+\[P(b) = \prod^D_{i = 1} p_i^{b_i} (1 - p_i)^{1 - b_i}\]</div></div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The hypercube dimensionality <span class="math notranslate nohighlight">\(D\)</span>.</p></li>
-<li><p><strong>p</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – The probability <span class="math notranslate nohighlight">\(p\)</span> of a bit to be positive.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>p</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The probability vector <span class="math notranslate nohighlight">\(p\)</span>, with shape <span class="math notranslate nohighlight">\((*, D)\)</span>.</p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">BernoulliMask</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">BernoulliMask</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
-<span class="go">tensor([True, True, False, True, False])</span>
+<span class="go">tensor([True, False, True])</span>
 </pre></div>
 </div>
 </dd></dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="lampe.masks.SelectionMask">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.masks.</span></span><span class="sig-name descname"><span class="pre">SelectionMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selection</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.masks.SelectionMask" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/masks.py#L70-L105"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.masks.</span></span><span class="sig-name descname"><span class="pre">SelectionMask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selection</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.masks.SelectionMask" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/masks.py#L71-L109"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
 <dd><p>Creates a mask distribution <span class="math notranslate nohighlight">\(P(b)\)</span>, uniform over a selection of
 binary masks <span class="math notranslate nohighlight">\(\mathcal{B} \subseteq \{0, 1\}^D\)</span>.</p>
 <div class="math-wrapper"><div class="math notranslate nohighlight">
@@ -295,7 +295,7 @@ binary masks <span class="math notranslate nohighlight">\(\mathcal{B} \subseteq 
 \end{cases}\end{split}\]</div></div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>selection</strong> (<em>BoolTensor</em>) – A binary mask selection <span class="math notranslate nohighlight">\(\mathcal{B}\)</span>.</p>
+<dd class="field-odd"><p><strong>selection</strong> (<em>BoolTensor</em>) – A binary mask selection <span class="math notranslate nohighlight">\(\mathcal{B}\)</span>, with shape <span class="math notranslate nohighlight">\((N, D)\)</span>.</p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -326,14 +326,14 @@ binary masks <span class="math notranslate nohighlight">\(\mathcal{B} \subseteq 
               </div>
               <svg><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="data.html">
+          <a class="prev-page" href="inference.html">
               <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">lampe.data</div>
+                <div class="title">lampe.inference</div>
                 
               </div>
             </a>

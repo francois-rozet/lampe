@@ -72,6 +72,10 @@ div[class^=highlight-] {
     text-decoration: none !important;
 }
 
+.highlight .go {
+    color: var(--color-api-overall) !important;
+}
+
 div.cell > div.cell_input {
     background: var(--color-api-background);
     border: unset;
@@ -109,6 +113,15 @@ mjx-container[display="true"] {
 }
 
 /* Sidebar */
+
+.sidebar-drawer {
+    left: -18em;
+    min-width: 18em;\
+}
+
+div.sidebar-container {
+    width: 18em;
+}
 
 img.sidebar-logo {
     max-width: 50%;
