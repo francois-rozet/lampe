@@ -8,7 +8,7 @@ from torch import Tensor, BoolTensor
 from typing import *
 
 
-__all__ = ['MLP', 'ResBlock', 'ResMLP', 'MaskedMLP']
+__all__ = ['MLP', 'ResBlock', 'ResMLP', 'MaskedMLP', 'MonotonicMLP']
 
 
 class Affine(nn.Module):
@@ -258,10 +258,10 @@ class MaskedLinear(nn.Linear):
 
 
 class MaskedMLP(MLP):
-    r"""Creates a masked multi-layer perceptron (MaskedMLP).
+    r"""Creates a masked multi-layer perceptron.
 
-    The resulting MLP is a transformation :math:`y = f(x)` such that the Jacobian
-    entry :math:`\frac{\partial y_j}{\partial x_i}` is null if :math:`A_{ij} = 0`.
+    The resulting MLP is a transformation :math:`y = f(x)` whose Jacobian entries
+    :math:`\frac{\partial y_j}{\partial x_i}` are null if :math:`A_{ij} = 0`.
 
     Arguments:
         adjacency: The adjacency matrix :math:`A \in \{0, 1\}^{M \times N}`.
@@ -316,3 +316,80 @@ class MaskedMLP(MLP):
                     mask = mask[:, indices]
 
                 self[i] = MaskedLinear(adjacency=mask)
+
+
+class MonotonicLinear(nn.Linear):
+    r"""Creates a monotonic linear layer.
+
+    .. math:: y = x |W|^T + b
+
+    Arguments:
+        args: Positional arguments passed to :class:`torch.nn.Linear`.
+        kwargs: Keyword arguments passed to :class:`torch.nn.Linear`.
+    """
+
+    def forward(self, x: Tensor) -> Tensor:
+        return F.linear(x, self.weight.abs(), self.bias)
+
+
+class TwoWayELU(nn.ELU):
+    r"""Creates a layer that splits the input into two groups and applies
+    :math:`\text{ELU}(x)` to the first and :math:`-\text{ELU}(-x)` to the second.
+
+    Arguments:
+        args: Positional arguments passed to :class:`torch.nn.ELU`.
+        kwargs: Keyword arguments passed to :class:`torch.nn.ELU`.
+    """
+
+    def forward(self, x: Tensor) -> Tensor:
+        x0, x1 = torch.split(x, x.shape[-1] // 2, dim=-1)
+
+        return torch.cat((
+            super().forward(x0),
+            -super().forward(-x1),
+        ), dim=-1)
+
+
+class MonotonicMLP(MLP):
+    r"""Creates a monotonic multi-layer perceptron.
+
+    The resulting MLP is a transformation :math:`y = f(x)` whose Jacobian entries
+    :math:`\frac{\partial y_j}{\partial x_i}` are positive.
+
+    Arguments:
+        args: Positional arguments passed to :class:`MLP`.
+        kwargs: Keyword arguments passed to :class:`MLP`.
+
+    Example:
+        >>> net = MonotonicMLP(4, 4, [16, 32])
+        >>> net
+        MonotonicMLP(
+          (0): MonotonicLinear(in_features=4, out_features=16, bias=True)
+          (1): TwoWayELU(alpha=1.0)
+          (2): MonotonicLinear(in_features=16, out_features=32, bias=True)
+          (3): TwoWayELU(alpha=1.0)
+          (4): MonotonicLinear(in_features=32, out_features=4, bias=True)
+        )
+        >>> x = torch.randn(4)
+        >>> torch.autograd.functional.jacobian(net, x).t()
+        tensor([[0.8742, 0.9439, 0.9759, 1.1040],
+                [0.8969, 0.9716, 0.9866, 1.1321],
+                [1.0780, 1.1651, 1.2056, 1.3674],
+                [0.8596, 0.9400, 0.9502, 1.0916]])
+    """
+
+    def __init__(
+        self,
+        *args,
+        **kwargs,
+    ):
+        kwargs['activation'] = 'ELU'
+        kwargs['batchnorm'] = False
+
+        super().__init__(*args, **kwargs)
+
+        for i, layer in enumerate(self):
+            if isinstance(layer, nn.Linear):
+                layer.__class__ = MonotonicLinear
+            elif isinstance(layer, nn.ELU):
+                layer.__class__ = TwoWayELU

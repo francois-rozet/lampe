@@ -8,7 +8,7 @@ from math import ceil
 from torch import Tensor, Size
 from typing import *
 
-from . import MLP, MaskedMLP
+from . import MLP, MaskedMLP, MonotonicMLP
 from ..distributions import *
 from ..utils import broadcast
 
@@ -16,6 +16,7 @@ from ..utils import broadcast
 __all__ = [
     'DistributionModule', 'TransformModule', 'FlowModule',
     'MaskedAutoregressiveTransform', 'MAF',
+    'NeuralAutoregressiveTransform', 'NAF',
 ]
 
 
@@ -234,7 +235,6 @@ class MAF(FlowModule):
         features: int,
         context: int = 0,
         transforms: int = 3,
-        linear: bool = False,
         **kwargs,
     ):
         increasing = torch.arange(features)
@@ -242,6 +242,89 @@ class MAF(FlowModule):
 
         transforms = [
             MaskedAutoregressiveTransform(
+                features=features,
+                context=context,
+                order=decreasing if i % 2 else increasing,
+                **kwargs,
+            )
+            for i in range(transforms)
+        ]
+
+        base = Buffer(DiagNormal, torch.zeros(features), torch.ones(features))
+
+        super().__init__(transforms, base)
+
+
+class NeuralAutoregressiveTransform(MaskedAutoregressiveTransform):
+    r"""Creates a neural autoregressive transform.
+
+    The monotonic neural network is parameterized by its internal (positive) weights,
+    which are independent of the context and the features. To modulate its behavior,
+    it receives as input a signal that is autoregressively dependent on the features
+    and context.
+
+    Arguments:
+        features: The number of features.
+        context: The number of context features.
+        signal: The number of signal features of the monotonic network.
+        monotone: Keyword arguments passed to :class:`lampe.nn.MonotonicMLP`.
+        kwargs: Keyword arguments passed to :class:`MaskedAutoregressiveTransform`.
+    """
+
+    def __init__(
+        self,
+        features: int,
+        context: int = 0,
+        signal: int = 8,
+        monotone: Dict[str, Any] = {},
+        **kwargs,
+    ):
+        super().__init__(
+            features=features,
+            context=context,
+            univariate=self.univariate,
+            shapes=[(signal,)],
+            **kwargs,
+        )
+
+        self.transform = MonotonicMLP(1 + signal, 1, **monotone)
+
+    def univariate(self, signal: Tensor) -> MonotonicTransform:
+        def f(x: Tensor) -> Tensor:
+            return self.transform(
+                torch.cat((x[..., None], signal), dim=-1)
+            ).squeeze(-1)
+
+        return MonotonicTransform(f)
+
+
+class NAF(FlowModule):
+    r"""Creates a neural autoregressive flow (NAF).
+
+    References:
+        Neural Autoregressive Flows
+        (Huang et al., 2018)
+        https://arxiv.org/abs/1804.00779
+
+    Arguments:
+        features: The number of features.
+        context: The number of context features.
+        transforms: The number of autoregressive transforms.
+        kwargs: Keyword arguments passed to :class:`NeuralAutoregressiveTransform`.
+    """
+
+    def __init__(
+        self,
+        features: int,
+        context: int = 0,
+        transforms: int = 3,
+        **kwargs,
+    ):
+        increasing = torch.arange(features)
+        decreasing = torch.flipud(increasing)
+
+        transforms = [
+            NeuralAutoregressiveTransform(
                 features=features,
                 context=context,
                 order=decreasing if i % 2 else increasing,

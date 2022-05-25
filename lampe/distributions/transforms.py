@@ -15,7 +15,7 @@ torch.distributions.transforms._InverseTransform.__name__ = 'Inverse'
 
 
 class PermutationTransform(Transform):
-    r"""Transform via a permutation of the elements.
+    r"""Creates a transformation that permutes the elements.
 
     Arguments:
         order: The permuatation order, with shape :math:`(*, D)`.
@@ -48,7 +48,7 @@ class PermutationTransform(Transform):
 
 
 class CosTransform(Transform):
-    r"""Transform via the mapping :math:`f(x) = -\cos(x)`."""
+    r"""Creates a transformation :math:`f(x) = -\cos(x)`."""
 
     domain = constraints.interval(0, math.pi)
     codomain = constraints.interval(-1, 1)
@@ -68,7 +68,7 @@ class CosTransform(Transform):
 
 
 class SinTransform(Transform):
-    r"""Transform via the mapping :math:`f(x) = \sin(x)`."""
+    r"""Creates a transformation :math:`f(x) = \sin(x)`."""
 
     domain = constraints.interval(-math.pi / 2, math.pi / 2)
     codomain = constraints.interval(-1, 1)
@@ -88,7 +88,7 @@ class SinTransform(Transform):
 
 
 class MonotonicAffineTransform(Transform):
-    r"""Transform via the mapping :math:`f(x) = x \times \text{softplus}(\alpha) + \beta`.
+    r"""Creates a transformation :math:`f(x) = x \times \text{softplus}(\alpha) + \beta`.
 
     Arguments:
         shift: The shift term :math:`\beta`, with shape :math:`(*,)`.
@@ -123,69 +123,8 @@ class MonotonicAffineTransform(Transform):
         return torch.log(self.scale).expand(x.shape)
 
 
-class MonotonicSOSTransform(Transform):
-    r"""Transform via a sum of sigmoids
-
-    .. math:: f(x) = x + \sum_{i = 1}^K \gamma_i \sigma(x \times \alpha_i + \beta_i)
-
-    Arguments:
-        shift: The shift terms :math:`\beta_i`, with shape :math:`(*, K)`.
-        scale: The unconstrained scale factors :math:`\alpha_i`, with shape :math:`(*, K)`.
-        amplitude: The unconstrained amplitudes :math:`\gamma_i`, with shape :math:`(*, K)`.
-        bisect: The number of bisection steps for the inverse transformation.
-        eps: A numerical stability term.
-    """
-
-    domain = constraints.real
-    codomain = constraints.real
-    bijective = True
-    sign = +1
-
-    def __init__(
-        self,
-        shift: Tensor,
-        scale: Tensor,
-        amplitude: Tensor,
-        bisect: int = 16,
-        eps: float = 1e-3,
-        **kwargs,
-    ):
-        super().__init__(**kwargs)
-
-        self.shift = shift
-        self.scale = F.softplus(scale) + eps
-        self.amplitude = F.softplus(amplitude) + eps
-
-        self.bisect = bisect
-
-    def _call(self, x: Tensor) -> Tensor:
-        return x + (self.amplitude * torch.sigmoid(x[..., None] * self.scale + self.shift)).sum(dim=-1)
-
-    def _inverse(self, y: Tensor) -> Tensor:
-        xa, xb = y - self.amplitude.sum(dim=-1), y
-        ya, yb = self._call(xa), self._call(xb)
-
-        for _ in range(self.bisect):
-            xc = (xa + xb) / 2
-            yc = self._call(xc)
-
-            xa, ya, xb, yb = torch.where(
-                yc <= y,
-                torch.stack((xc, yc, xb, yb)),
-                torch.stack((xa, ya, xc, yc)),
-            )
-
-        return (xa + xb) / 2
-
-    def log_abs_det_jacobian(self, x: Tensor, y: Tensor) -> Tensor:
-        sigmoids = torch.sigmoid(x[..., None] * self.scale + self.shift)
-        jacobian = 1 + (self.amplitude * self.scale * sigmoids * (1 - sigmoids)).sum(dim=-1)
-
-        return torch.log(jacobian)
-
-
 class MonotonicRationalQuadraticSplineTransform(Transform):
-    r"""Transform via a monotonic rational-quadratic spline mapping.
+    r"""Creates a monotonic rational-quadratic spline transformation.
 
     References:
         Neural Spline Flows (Durkan et al., 2019)
@@ -300,6 +239,65 @@ class MonotonicRationalQuadraticSplineTransform(Transform):
         )
 
         return torch.log(jacobian) * mask
+
+
+class MonotonicTransform(Transform):
+    r"""Creates a transformation from a monotonic univariate function :math:`f(x)`.
+
+    The inverse function :math:`f^{-1}` is approximated using the bisection method.
+
+    Wikipedia:
+        https://en.wikipedia.org/wiki/Bisection_method
+
+    Arguments:
+        f: A monotonic univariate function :math:`f(x)`.
+        bound: The domain bound :math:`B`.
+        eps: The numerical tolerance for the inverse transformation.
+    """
+
+    domain = constraints.real
+    codomain = constraints.real
+    bijective = True
+    sign = +1
+
+    def __init__(
+        self,
+        f: Callable[[Tensor], Tensor],
+        bound: float = 1e1,
+        eps: float = 1e-6,
+        **kwargs,
+    ):
+        super().__init__(**kwargs)
+
+        self.f = f
+        self.bound = bound
+        self.eps = eps
+
+    def _call(self, x: Tensor) -> Tensor:
+        return self.f(self.bound * torch.tanh(x / self.bound))
+
+    def _inverse(self, y: Tensor) -> Tensor:
+        a = torch.full_like(y, -self.bound)
+        b = torch.full_like(y, self.bound)
+
+        for _ in range(int(math.log2(self.bound / self.eps))):
+            c = (a + b) / 2
+
+            mask = self.f(c) < y
+
+            a = torch.where(mask, c, a)
+            b = torch.where(mask, b, c)
+
+        x = (a + b) / 2
+
+        return self.bound * torch.atanh(x / self.bound)
+
+    def log_abs_det_jacobian(self, x: Tensor, y: Tensor) -> Tensor:
+        return torch.log(torch.autograd.functional.jacobian(
+            func=lambda x: self._call(x).sum(),
+            inputs=x,
+            create_graph=torch.is_grad_enabled(),
+        ))
 
 
 class AutoregressiveTransform(Transform):
