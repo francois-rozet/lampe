@@ -350,9 +350,9 @@ reduces the vanishing of gradients and allows for deeper networks.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="lampe.nn.MaskedMLP">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.nn.</span></span><span class="sig-name descname"><span class="pre">MaskedMLP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adjacency</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.nn.MaskedMLP" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/nn/__init__.py#L260-L318"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
-<dd><p>Creates a masked multi-layer perceptron (MaskedMLP).</p>
-<p>The resulting MLP is a transformation <span class="math notranslate nohighlight">\(y = f(x)\)</span> such that the Jacobian
-entry <span class="math notranslate nohighlight">\(\frac{\partial y_j}{\partial x_i}\)</span> is null if <span class="math notranslate nohighlight">\(A_{ij} = 0\)</span>.</p>
+<dd><p>Creates a masked multi-layer perceptron.</p>
+<p>The resulting MLP is a transformation <span class="math notranslate nohighlight">\(y = f(x)\)</span> whose Jacobian entries
+<span class="math notranslate nohighlight">\(\frac{\partial y_j}{\partial x_i}\)</span> are null if <span class="math notranslate nohighlight">\(A_{ij} = 0\)</span>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -384,6 +384,39 @@ entry <span class="math notranslate nohighlight">\(\frac{\partial y_j}{\partial 
 <span class="go">        [-0.0323,  0.0000, -0.0547,  0.0000],</span>
 <span class="go">        [ 0.0000, -0.0245,  0.0000,  0.0000],</span>
 <span class="go">        [ 0.0000,  0.0060, -0.0063,  0.0000]])</span>
+</pre></div>
+</div>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="lampe.nn.MonotonicMLP">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.nn.</span></span><span class="sig-name descname"><span class="pre">MonotonicMLP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.nn.MonotonicMLP" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/nn/__init__.py#L353-L395"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Creates a monotonic multi-layer perceptron.</p>
+<p>The resulting MLP is a transformation <span class="math notranslate nohighlight">\(y = f(x)\)</span> whose Jacobian entries
+<span class="math notranslate nohighlight">\(\frac{\partial y_j}{\partial x_i}\)</span> are positive.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> – Positional arguments passed to <a class="reference internal" href="#lampe.nn.MLP" title="lampe.nn.MLP"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLP</span></code></a>.</p></li>
+<li><p><strong>kwargs</strong> – Keyword arguments passed to <a class="reference internal" href="#lampe.nn.MLP" title="lampe.nn.MLP"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLP</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">MonotonicMLP</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">net</span>
+<span class="go">MonotonicMLP(</span>
+<span class="go">  (0): MonotonicLinear(in_features=4, out_features=16, bias=True)</span>
+<span class="go">  (1): TwoWayELU(alpha=1.0)</span>
+<span class="go">  (2): MonotonicLinear(in_features=16, out_features=32, bias=True)</span>
+<span class="go">  (3): TwoWayELU(alpha=1.0)</span>
+<span class="go">  (4): MonotonicLinear(in_features=32, out_features=4, bias=True)</span>
+<span class="go">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">t</span><span class="p">()</span>
+<span class="go">tensor([[0.8742, 0.9439, 0.9759, 1.1040],</span>
+<span class="go">        [0.8969, 0.9716, 0.9866, 1.1321],</span>
+<span class="go">        [1.0780, 1.1651, 1.2056, 1.3674],</span>
+<span class="go">        [0.8596, 0.9400, 0.9502, 1.0916]])</span>
 </pre></div>
 </div>
 </dd></dl>
