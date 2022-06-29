@@ -57,7 +57,7 @@ class LinearAlphaColormap(mpl.colors.LinearSegmentedColormap):
     Arguments:
         color: A color.
         levels: A sequence of levels dividing the domain into segments.
-        alpha: The transparancy range.
+        alpha: The transparency range.
         name: A name for the colormap.
     """
 

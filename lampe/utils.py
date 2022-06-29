@@ -1,104 +1,11 @@
 r"""General purpose helpers."""
 
-import numpy as np
-import os
 import torch
 import torch.nn as nn
 
-from functools import lru_cache, partial
-from itertools import islice, starmap
 from torch import Tensor
 from torch.optim import Optimizer
 from typing import *
-
-
-def cache(f: Callable = None, /, persist: bool = False) -> Callable:
-    r"""Unbounded function cache decorator.
-
-    Wraps a function with a memoizing callable that saves call results, which
-    can save time when an expensive function is called several times with the
-    same arguments.
-
-    The positional and keyword arguments of :py:`f` must be hashable.
-
-    Arguments:
-        f: The function to decorate.
-        persist: Whether the cached values persist to disk or not.
-
-    Example:
-        >>> @cache
-        ... def fib(n):
-        ...     return n if n < 2 else fib(n-2) + fib(n-1)
-        ...
-        >>> fib(42)
-        267914296
-    """
-
-    if persist:
-        try:
-            from joblib import Memory
-        except ImportError as e:
-            print(f"ImportWarning: {e}. Fallback to regular cache.")
-        else:
-            memory = Memory(os.path.expanduser('~/.cache'), mmap_mode='c', verbose=0)
-
-            if f is None:
-                return memory.cache
-            else:
-                return memory.cache(f)
-
-    d = lru_cache(maxsize=None)
-
-    return d if f is None else d(f)
-
-
-def vectorize(f: Callable = None, /, **kwargs):
-    r"""Convenience vectorization decorator.
-
-    Defines a vectorized function which takes a sequence of objects or NumPy arrays
-    as inputs and returns a tuple of NumPy arrays. The vectorized function evaluates
-    :py:`f` over successive tuples of the input arrays like the :func:`map` function,
-    except it uses the broadcasting rules of NumPy.
-
-    Arguments:
-        f: The function to decorate.
-        kwargs: Keyword arguments passed to :class:`numpy.vectorize`.
-
-    Example:
-        >>> @vectorize(otypes=[float])
-        ... def abs(x):
-        ...     return x if x > 0 else -x
-        ...
-        >>> abs(range(-3, 4))
-        array([3., 2., 1., 0., 1., 2., 3.])
-    """
-
-    if f is None:
-        return partial(vectorize, **kwargs)
-    else:
-        class Vectorize(np.vectorize):
-            def _vectorize_call(self, func: Callable, args: List) -> Any:
-                if self.signature is not None:
-                    return self._vectorize_call_with_signature(func, args)
-                elif not args:
-                    return func()
-                else:
-                    ufunc, otypes = self._get_ufunc_and_otypes(func=func, args=args)
-
-                    outputs = ufunc(*args)
-
-                    if ufunc.nout == 1:
-                        if otypes[0] == 'O':
-                            return outputs
-                        else:
-                            return np.asanyarray(outputs, dtype=otypes[0])
-                    else:
-                        return tuple(
-                            x if t == 'O' else np.asanyarray(x, dtype=t)
-                            for x, t in zip(outputs, otypes)
-                        )
-
-        return Vectorize(f, **kwargs)
 
 
 def broadcast(*tensors: Tensor, ignore: Union[int, List[int]] = None) -> List[Tensor]:
@@ -243,64 +150,6 @@ class GDStep(object):
                     self.optimizer.step()
 
         return loss.detach()
-
-
-class PlateauDetector(object):
-    r"""Creates a plateau detector for online sequences.
-
-    Each time a new value :math:`x_t` is provided, it is compared with the current
-    best value :math:`x_b` to determine whether :math:`t` is the new best time step.
-    In the minimization mode, :math:`x_t` is considered better if it satisfies
-
-    .. math:: x_t < x_b \, (1 - \tau) ,
-
-    where :math:`\tau \in [0, 1]` is a significance threshold. If it is the case,
-    :math:`b` becomes :math:`t`. The sequence is currently at a plateau if :math:`b`
-    has not changed for more than :math:`\lambda` patience steps, i.e. if
-
-    .. math:: t - b > \lambda .
-
-    Arguments:
-        threshold: The significance threshold :math:`\tau`.
-        patience: The patience :math:`\lambda`.
-        mode: The improvement mode, either :py:`'min'` or :py:`'max'`.
-    """
-
-    def __init__(
-        self,
-        threshold: float = 1e-2,
-        patience: int = 8,
-        mode: str = 'min',  # 'max'
-    ):
-        self.threshold = threshold
-        self.patience = patience
-        self.mode = mode
-
-        self.sequence = [float('+inf' if mode == 'min' else '-inf')]
-        self.best_time = 0
-
-    @property
-    def time(self) -> int:
-        return len(self.sequence) - 1
-
-    @property
-    def best(self) -> float:
-        return self.sequence[self.best_time]
-
-    def step(self, value: float) -> None:
-        self.sequence.append(value)
-
-        if self.mode == 'min':
-            better = value < self.best * (1 - self.threshold)
-        else:
-            better = value > self.best * (1 + self.threshold)
-
-        if better:
-            self.best_time = self.time
-
-    @property
-    def plateau(self) -> bool:
-        return self.time - self.best_time > self.patience
 
 
 def gridapply(

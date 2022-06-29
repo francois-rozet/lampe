@@ -247,7 +247,7 @@ class MonotonicTransform(Transform):
     The inverse function :math:`f^{-1}` is approximated using the bisection method.
 
     Wikipedia:
-        https://en.wikipedia.org/wiki/Bisection_method
+        https://wikipedia.org/wiki/Bisection_method
 
     Arguments:
         f: A monotonic univariate function :math:`f(x)`.
@@ -274,7 +274,7 @@ class MonotonicTransform(Transform):
         self.eps = eps
 
     def _call(self, x: Tensor) -> Tensor:
-        return self.f(self.bound * torch.tanh(x / self.bound))
+        return self.f(x / torch.sqrt(1 + (x / self.bound)**2))
 
     def _inverse(self, y: Tensor) -> Tensor:
         a = torch.full_like(y, -self.bound)
@@ -290,7 +290,7 @@ class MonotonicTransform(Transform):
 
         x = (a + b) / 2
 
-        return self.bound * torch.atanh(x / self.bound)
+        return x / torch.sqrt(1 - (x / self.bound)**2)
 
     def log_abs_det_jacobian(self, x: Tensor, y: Tensor) -> Tensor:
         return torch.log(torch.autograd.functional.jacobian(

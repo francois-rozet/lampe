@@ -1,4 +1,4 @@
-r"""Parameterizable probability distributions and sampling functions."""
+r"""Parametrizable probability distributions and sampling functions."""
 
 import math
 import torch
@@ -155,7 +155,7 @@ class GeneralizedNormal(Distribution):
     .. math:: p(X = x) = \frac{\beta}{2 \Gamma(1 / \beta)} \exp(-|x|^\beta)
 
     Wikipedia:
-        https://en.wikipedia.org/wiki/Generalized_normal_distribution
+        https://wikipedia.org/wiki/Generalized_normal_distribution
 
     Arguments:
         beta: The shape parameter :math:`\beta`.

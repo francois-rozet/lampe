@@ -29,13 +29,13 @@ Simulation-based inference
 
 In many areas of science, computer simulators are used to describe complex phenomena such as high energy particle interactions, gravitational waves or neuronal ion-channel dynamics. These simulators are stochastic models/programs that generate synthetic observations according to input parameters. A common task for scientists is to use such models to perform statistical inference of the parameters given one or more observations. Unfortunately, simulators often feature high-dimensional parameter spaces and intractable likelihoods, making inference challenging.
 
-Formally, a stochastic model takes a set of parameters :math:`\theta \in \Theta` as input, samples internally a series :math:`z \in \mathcal{Z}` of latent variables and, finally, produces an observation :math:`x \in \mathcal{X} \sim p(x | \theta, z)` as output, thereby defining an implicit likelihood :math:`p(x | \theta)`. This likelihood is typically *intractable* as it corresponds to the integral of the joint likelihood :math:`p(x, z | \theta)` over *all* possible trajectories through the latent space :math:`\mathcal{Z}`. Moreover, in Bayesian inference, we are interested in the posterior
+Formally, a stochastic model takes (a vector of) parameters :math:`\theta \in \Theta` as input, samples internally a series :math:`z \in \mathcal{Z}` of latent variables and, finally, produces an observation :math:`x \in \mathcal{X} \sim p(x | \theta, z)` as output, thereby defining an implicit likelihood :math:`p(x | \theta)`. This likelihood is typically *intractable* as it corresponds to the integral of the joint likelihood :math:`p(x, z | \theta)` over *all* possible trajectories through the latent space :math:`\mathcal{Z}`. Moreover, in Bayesian inference, we are interested in the posterior
 
 .. math:: p(\theta | x)
     = \frac{p(x | \theta) p(\theta)}{p(x)}
     = \frac{p(x | \theta) p(\theta)}{\int_\Theta p(x | \theta') p(\theta') \operatorname{d}\!\theta'}
 
-for some observation :math:`x` and a prior distribution :math:`p(\theta)`, which not only involves the intractable likelihood :math:`p(x | \theta)` but also an intractable integral over the parameter space :math:`\Theta`. The omnipresence of this problem gave rise to a rapidly expanding field of research referred to as simulation-based inference (SBI). Pushed by the advances in machine learning, modern SBI approaches are to train a parametric surrogate :math:`p_\phi(\theta | x)` of the posterior and, then, proceed as if the latter was tractable.
+for some observation :math:`x` and a prior distribution :math:`p(\theta)`, which not only involves the intractable likelihood :math:`p(x | \theta)` but also an intractable integral over the parameter space :math:`\Theta`. The omnipresence of this problem gave rise to a rapidly expanding field of research referred to as simulation-based inference (SBI).
 
 References
 ----------

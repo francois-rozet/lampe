@@ -5,6 +5,12 @@
 # macOS
 .DS_Store
 
+# Docs
+docs/
+
+# HDF5
+*.h5
+
 
 ##########
 # Python #

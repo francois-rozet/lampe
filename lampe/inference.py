@@ -1,10 +1,4 @@
-r"""Inference components such as estimators, training losses and MCMC samplers.
-
-.. admonition:: TODO
-
-    * Finish documentation (NPE, AMNPE).
-    * Find references.
-"""
+r"""Inference components such as estimators, training losses and MCMC samplers."""
 
 import torch
 import torch.nn as nn
@@ -29,7 +23,7 @@ class NRE(nn.Module):
     product of the marginals :math:`p(\theta)p(x)`. Formally, the optimization
     problem is
 
-    .. math:: \arg \min_\phi
+    .. math:: \arg\min_\phi
         \mathbb{E}_{p(\theta, x)} \big[ \ell(d_\phi(\theta, x)) \big] +
         \mathbb{E}_{p(\theta)p(x)} \big[ \ell(1 - d_\phi(\theta, x)) \big]
 
@@ -153,10 +147,10 @@ class AMNRE(NRE):
     :math:`b \in \{0, 1\}^D` indicating a subset of parameters :math:`\theta_b =
     (\theta_i: b_i = 1)` of interest. Intuitively, this allows the classifier to
     distinguish subspaces and to learn a different ratio for each of them. Formally,
-    the classifer network takes the form :math:`d_\phi(\theta_b, x, b)` and the
+    the classifier network takes the form :math:`d_\phi(\theta_b, x, b)` and the
     optimization problem becomes
 
-    .. math:: \arg \min_\phi
+    .. math:: \arg\min_\phi
         \mathbb{E}_{p(\theta, x) P(b)} \big[ \ell(d_\phi(\theta_b, x, b)) \big] +
         \mathbb{E}_{p(\theta)p(x) P(b)} \big[ \ell(1 - d_\phi(\theta_b, x, b)) \big],
 
@@ -271,7 +265,19 @@ class AMNRELoss(nn.Module):
 class NPE(nn.Module):
     r"""Creates a neural posterior estimation (NPE) normalizing flow.
 
-    TODO
+    The principle of neural posterior estimation is to train a parametric conditional
+    distribution :math:`p_\phi(\theta | x)` to approximate the posterior distribution
+    :math:`p(\theta | x)`. The optimization problem is to minimize the Kullback-Leibler
+    (KL) divergence between the two distributions or, equivalently,
+
+    .. math:: \arg\min_\phi \mathbb{E}_{p(\theta, x)} \big[ -\log p_\phi(\theta | x) \big] .
+
+    Normalizing flows are typically used for :math:`p_\phi(\theta | x)` as they are
+    differentiable parametric distributions enabling gradient-based optimization
+    techniques.
+
+    References:
+        https://wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence
 
     Arguments:
         theta_dim: The dimensionality :math:`D` of the parameter space.
@@ -317,11 +323,11 @@ class NPE(nn.Module):
         r"""
         Arguments:
             x: The observation :math:`x`, with shape :math:`(*, L)`.
-            shape: TODO
+            shape: The shape :math:`S` of the samples.
 
         Returns:
             The samples :math:`\theta \sim p_\phi(\theta | x)`,
-            with shape :math:`(*, S, D)`.
+            with shape :math:`S + (*, D)`.
         """
 
         return self.flow(x).sample(shape)
@@ -401,11 +407,11 @@ class AMNPE(NPE):
         Arguments:
             x: The observation :math:`x`, with shape :math:`(*, L)`.
             b: A binary mask :math:`b`, with shape :math:`(D,)`.
-            shape: TODO
+            shape: The shape :math:`S` of the samples.
 
         Returns:
             The samples :math:`\theta_b \sim p_\phi(\theta_b | x, b)`,
-            with shape :math:`(*, S, D)`.
+            with shape :math:`S + (*, D)`.
         """
 
         x, b = broadcast(x, b * 2. - 1., ignore=1)
@@ -462,8 +468,8 @@ class MetropolisHastings(object):
     r"""Creates a batched Metropolis-Hastings sampler.
 
     Metropolis-Hastings is a Markov chain Monte Carlo (MCMC) sampling algorithm used to
-    sample from intractable distributions :math:`p(x)` whose density is proportial to a
-    tracatble function :math:`f(x)`, with :math:`x \in \mathcal{X}`. The algorithm
+    sample from intractable distributions :math:`p(x)` whose density is proportional to a
+    tractable function :math:`f(x)`, with :math:`x \in \mathcal{X}`. The algorithm
     consists in repeating the following routine for :math:`t = 1` to :math:`T`, where
     :math:`x_0` is the initial sample and :math:`q(x' | x)` is a pre-defined transition
     distribution.
@@ -476,10 +482,10 @@ class MetropolisHastings(object):
     Asymptotically, i.e. when :math:`T \to \infty`, the distribution of samples
     :math:`x_t` is guaranteed to converge towards :math:`p(x)`. In this implementation,
     a Gaussian transition :math:`q(x' | x) = \mathcal{N}(x'; x, \Sigma)` is used, which
-    can be modified by subclassing :class:`MetropolisHastings`.
+    can be modified by sub-classing :class:`MetropolisHastings`.
 
     Wikipedia:
-        https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm
+        https://wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm
 
     Arguments:
         x_0: A batch of initial points :math:`x_0`, with shape :math:`(*, L)`.

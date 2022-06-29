@@ -62,13 +62,13 @@ class MLP(nn.Sequential):
 
     .. math:: h_{i + 1} = a_{i + 1}(W_{i + 1}^T h_i + b_{i + 1}),
 
-    over feature vectors :math:`h_i`, with the input and ouput feature vectors
+    over feature vectors :math:`h_i`, with the input and output feature vectors
     :math:`x = h_0` and :math:`y = h_L`, respectively. The non-linear functions
     :math:`a_i` are called activation functions. The trainable parameters of an MLP
     are its weights and biases :math:`\phi = \{W_i, b_i | i = 1, \dots, L\}`.
 
     Wikipedia:
-        https://en.wikipedia.org/wiki/Feedforward_neural_network
+        https://wikipedia.org/wiki/Feedforward_neural_network
 
     Arguments:
         in_features: The number of input features.

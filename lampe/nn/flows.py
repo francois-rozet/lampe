@@ -258,7 +258,7 @@ class MAF(FlowModule):
 class NeuralAutoregressiveTransform(MaskedAutoregressiveTransform):
     r"""Creates a neural autoregressive transform.
 
-    The monotonic neural network is parameterized by its internal (positive) weights,
+    The monotonic neural network is parametrized by its internal (positive) weights,
     which are independent of the context and the features. To modulate its behavior,
     it receives as input a signal that is autoregressively dependent on the features
     and context.
