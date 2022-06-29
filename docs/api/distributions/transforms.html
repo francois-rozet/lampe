@@ -1,14 +1,14 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="lampe.data" href="../data.html" /><link rel="prev" title="lampe.distributions" href="index.html" />
 
-    <link rel="shortcut icon" href="../../_static/logo_dark.svg"/><meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
+    <link rel="shortcut icon" href="../../_static/logo_dark.svg"/><meta name="generator" content="sphinx-5.0.2, furo 2022.06.21"/>
         <title>lampe.distributions.transforms - LAMPE</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -171,8 +171,9 @@
   <p class="caption" role="heading"><span class="caption-text">lampe</span></p>
 <ul class="current">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/01_npe.ipynb">1. Neural posterior estimation</a></li>
-<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/02_nre.ipynb">2. Neural ratio estimation</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/01_simulators.ipynb">1. Simulators and dataset</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/02_npe.ipynb">2. Neural posterior estimation</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/03_nre.ipynb">3. Neural ratio estimation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
@@ -215,7 +216,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -230,7 +232,7 @@
         </div>
         <article role="main">
           <section id="module-lampe.distributions.transforms">
-<span id="lampe-distributions-transforms"></span><h1>lampe.distributions.transforms<a class="headerlink" href="#module-lampe.distributions.transforms" title="Permalink to this headline">#</a></h1>
+<span id="lampe-distributions-transforms"></span><h1>lampe.distributions.transforms<a class="headerlink" href="#module-lampe.distributions.transforms" title="Permalink to this heading">#</a></h1>
 <p>Parameterizable transformations and bijections.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="lampe.distributions.transforms.PermutationTransform">
@@ -242,16 +244,19 @@
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="lampe.distributions.transforms.CosTransform">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.distributions.transforms.</span></span><span class="sig-name descname"><span class="pre">CosTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.distributions.transforms.CosTransform" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/distributions/transforms.py#L50-L67"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
 <dd><p>Creates a transformation <span class="math notranslate nohighlight">\(f(x) = -\cos(x)\)</span>.</p>
 </dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="lampe.distributions.transforms.SinTransform">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.distributions.transforms.</span></span><span class="sig-name descname"><span class="pre">SinTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.distributions.transforms.SinTransform" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/distributions/transforms.py#L70-L87"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
 <dd><p>Creates a transformation <span class="math notranslate nohighlight">\(f(x) = \sin(x)\)</span>.</p>
 </dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="lampe.distributions.transforms.MonotonicAffineTransform">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.distributions.transforms.</span></span><span class="sig-name descname"><span class="pre">MonotonicAffineTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shift</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.distributions.transforms.MonotonicAffineTransform" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/distributions/transforms.py#L90-L123"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
@@ -259,13 +264,14 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>shift</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The shift term <span class="math notranslate nohighlight">\(\beta\)</span>, with shape <span class="math notranslate nohighlight">\((*,)\)</span>.</p></li>
-<li><p><strong>scale</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The unconstrained scale factor <span class="math notranslate nohighlight">\(\alpha\)</span>, with shape <span class="math notranslate nohighlight">\((*,)\)</span>.</p></li>
+<li><p><strong>shift</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><em>Tensor</em></a>) – The shift term <span class="math notranslate nohighlight">\(\beta\)</span>, with shape <span class="math notranslate nohighlight">\((*,)\)</span>.</p></li>
+<li><p><strong>scale</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><em>Tensor</em></a>) – The unconstrained scale factor <span class="math notranslate nohighlight">\(\alpha\)</span>, with shape <span class="math notranslate nohighlight">\((*,)\)</span>.</p></li>
 <li><p><strong>eps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – A numerical stability term.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="lampe.distributions.transforms.MonotonicRationalQuadraticSplineTransform">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.distributions.transforms.</span></span><span class="sig-name descname"><span class="pre">MonotonicRationalQuadraticSplineTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">widths</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derivatives</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.distributions.transforms.MonotonicRationalQuadraticSplineTransform" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/distributions/transforms.py#L126-L241"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
@@ -276,32 +282,34 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>widths</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The unconstrained bin widths, with shape <span class="math notranslate nohighlight">\((*, K)\)</span>.</p></li>
-<li><p><strong>heights</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The unconstrained bin heights, with shape <span class="math notranslate nohighlight">\((*, K)\)</span>.</p></li>
-<li><p><strong>derivatives</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a>) – The unconstrained knot derivatives, with shape <span class="math notranslate nohighlight">\((*, K - 1)\)</span>.</p></li>
+<li><p><strong>widths</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><em>Tensor</em></a>) – The unconstrained bin widths, with shape <span class="math notranslate nohighlight">\((*, K)\)</span>.</p></li>
+<li><p><strong>heights</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><em>Tensor</em></a>) – The unconstrained bin heights, with shape <span class="math notranslate nohighlight">\((*, K)\)</span>.</p></li>
+<li><p><strong>derivatives</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><em>Tensor</em></a>) – The unconstrained knot derivatives, with shape <span class="math notranslate nohighlight">\((*, K - 1)\)</span>.</p></li>
 <li><p><strong>bound</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – The spline’s (co)domain bound <span class="math notranslate nohighlight">\(B\)</span>.</p></li>
 <li><p><strong>eps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – A numerical stability term.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="lampe.distributions.transforms.MonotonicTransform">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.distributions.transforms.</span></span><span class="sig-name descname"><span class="pre">MonotonicTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.distributions.transforms.MonotonicTransform" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/distributions/transforms.py#L244-L300"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
 <dd><p>Creates a transformation from a monotonic univariate function <span class="math notranslate nohighlight">\(f(x)\)</span>.</p>
 <p>The inverse function <span class="math notranslate nohighlight">\(f^{-1}\)</span> is approximated using the bisection method.</p>
 <p class="rubric">Wikipedia</p>
-<p><a class="reference external" href="https://en.wikipedia.org/wiki/Bisection_method">https://en.wikipedia.org/wiki/Bisection_method</a></p>
+<p><a class="reference external" href="https://wikipedia.org/wiki/Bisection_method">https://wikipedia.org/wiki/Bisection_method</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>f</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>]</em><em>, </em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>]</em>) – A monotonic univariate function <span class="math notranslate nohighlight">\(f(x)\)</span>.</p></li>
+<li><p><strong>f</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><em>Tensor</em></a><em>]</em><em>, </em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><em>Tensor</em></a><em>]</em>) – A monotonic univariate function <span class="math notranslate nohighlight">\(f(x)\)</span>.</p></li>
 <li><p><strong>bound</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – The domain bound <span class="math notranslate nohighlight">\(B\)</span>.</p></li>
 <li><p><strong>eps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – The numerical tolerance for the inverse transformation.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="lampe.distributions.transforms.AutoregressiveTransform">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.distributions.transforms.</span></span><span class="sig-name descname"><span class="pre">AutoregressiveTransform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passes</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.distributions.transforms.AutoregressiveTransform" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/distributions/transforms.py#L303-L337"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
@@ -309,12 +317,13 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>meta</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.11.0)"><em>Tensor</em></a><em>]</em><em>, </em><a class="reference external" href="https://pytorch.org/docs/stable/distributions.html#torch.distributions.transforms.Transform" title="(in PyTorch v1.11.0)"><em>Transform</em></a><em>]</em>) – A meta function <span class="math notranslate nohighlight">\(g(x) = f\)</span>.</p></li>
+<li><p><strong>meta</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://pytorch.org/docs/stable/tensors.html#torch.Tensor" title="(in PyTorch v1.12)"><em>Tensor</em></a><em>]</em><em>, </em><a class="reference external" href="https://pytorch.org/docs/stable/distributions.html#torch.distributions.transforms.Transform" title="(in PyTorch v1.12)"><em>Transform</em></a><em>]</em>) – A meta function <span class="math notranslate nohighlight">\(g(x) = f\)</span>.</p></li>
 <li><p><strong>passes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The number of passes for the inverse transformation.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
+
 </section>
 
         </article>
@@ -372,6 +381,7 @@
 </div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/scripts/furo.js"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

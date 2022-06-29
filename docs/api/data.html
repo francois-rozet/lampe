@@ -1,14 +1,14 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="lampe.inference" href="inference.html" /><link rel="prev" title="lampe.distributions.transforms" href="distributions/transforms.html" />
 
-    <link rel="shortcut icon" href="../_static/logo_dark.svg"/><meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
+    <link rel="shortcut icon" href="../_static/logo_dark.svg"/><meta name="generator" content="sphinx-5.0.2, furo 2022.06.21"/>
         <title>lampe.data - LAMPE</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -171,8 +171,9 @@
   <p class="caption" role="heading"><span class="caption-text">lampe</span></p>
 <ul class="current">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/01_npe.ipynb">1. Neural posterior estimation</a></li>
-<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/02_nre.ipynb">2. Neural ratio estimation</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/01_simulators.ipynb">1. Simulators and dataset</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/02_npe.ipynb">2. Neural posterior estimation</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/03_nre.ipynb">3. Neural ratio estimation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
@@ -215,7 +216,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -230,27 +232,28 @@
         </div>
         <article role="main">
           <section id="module-lampe.data">
-<span id="lampe-data"></span><h1>lampe.data<a class="headerlink" href="#module-lampe.data" title="Permalink to this headline">#</a></h1>
+<span id="lampe-data"></span><h1>lampe.data<a class="headerlink" href="#module-lampe.data" title="Permalink to this heading">#</a></h1>
 <p>Datasets and data loaders.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="lampe.data.JointLoader">
-<span class="sig-prename descclassname"><span class="pre">lampe.data.</span></span><span class="sig-name descname"><span class="pre">JointLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prior</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batched</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numpy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.data.JointLoader" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/data.py#L51-L95"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<span class="sig-prename descclassname"><span class="pre">lampe.data.</span></span><span class="sig-name descname"><span class="pre">JointLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prior</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vectorized</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">numpy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.data.JointLoader" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/data.py#L52-L97"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
 <dd><p>Creates a data loader of batched pairs <span class="math notranslate nohighlight">\((\theta, x)\)</span> generated by
 a prior distribution <span class="math notranslate nohighlight">\(p(\theta)\)</span> and a simulator.</p>
-<p>The simlator is a stochastic function taking a set of parameters <span class="math notranslate nohighlight">\(\theta\)</span>
-as input and returning an observation <span class="math notranslate nohighlight">\(x\)</span> as output, which (implicitely)
-defines a likelihood function <span class="math notranslate nohighlight">\(p(x | \theta)\)</span>. Together with the prior,
-they form a joint distribution <span class="math notranslate nohighlight">\(p(\theta, x) = p(\theta) p(x | \theta)\)</span>
-from which the pairs <span class="math notranslate nohighlight">\((\theta, x)\)</span> are independently drawn.</p>
+<p>The simulator is a stochastic function taking (a vector of) parameters
+<span class="math notranslate nohighlight">\(\theta\)</span>, in the form of a NumPy array or a PyTorch tensor, as input and
+returning an observation <span class="math notranslate nohighlight">\(x\)</span> as output, which (implicitly) defines a
+likelihood distribution <span class="math notranslate nohighlight">\(p(x | \theta)\)</span>. Together with the prior, they form
+a joint distribution <span class="math notranslate nohighlight">\(p(\theta, x) = p(\theta) p(x | \theta)\)</span> from which
+the pairs <span class="math notranslate nohighlight">\((\theta, x)\)</span> are independently drawn.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>prior</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/distributions.html#torch.distributions.distribution.Distribution" title="(in PyTorch v1.11.0)"><em>Distribution</em></a>) – A prior distribution <span class="math notranslate nohighlight">\(p(\theta)\)</span>.</p></li>
+<li><p><strong>prior</strong> (<a class="reference external" href="https://pytorch.org/docs/stable/distributions.html#torch.distributions.distribution.Distribution" title="(in PyTorch v1.12)"><em>Distribution</em></a>) – A prior distribution <span class="math notranslate nohighlight">\(p(\theta)\)</span>.</p></li>
 <li><p><strong>simulator</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a>) – A callable simulator.</p></li>
 <li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The batch size of the generated pairs.</p></li>
-<li><p><strong>batched</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether the simulator accepts batched inputs or not.</p></li>
+<li><p><strong>vectorized</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether the simulator accepts batched inputs or not.</p></li>
 <li><p><strong>numpy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether the simulator requires NumPy or PyTorch inputs.</p></li>
-<li><p><strong>kwargs</strong> – Keyword arguments passed to <a class="reference external" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader" title="(in PyTorch v1.11.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.data.DataLoader</span></code></a>.</p></li>
+<li><p><strong>kwargs</strong> – Keyword arguments passed to <a class="reference external" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.data.DataLoader</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -268,38 +271,38 @@ from which the pairs <span class="math notranslate nohighlight">\((\theta, x)\)<
 </pre></div>
 </div>
 </dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="lampe.data.H5Dataset">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.data.</span></span><span class="sig-name descname"><span class="pre">H5Dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4096</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">16</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pin_memory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.data.H5Dataset" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/data.py#L98-L271"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
-<dd><p>Creates a dataset of pairs <span class="math notranslate nohighlight">\((\theta, x)\)</span> from HDF5 files.</p>
-<p>As a <a class="reference external" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.Dataset" title="(in PyTorch v1.11.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.data.Dataset</span></code></a>, <a class="reference internal" href="#lampe.data.H5Dataset" title="lampe.data.H5Dataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">H5Dataset</span></code></a> implements the methods
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">__len__</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__</span></code>. However, as it can be slow to load pairs
-from disk one by one when iterating over the dataset, it also implements a custom
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__</span></code> method. This method loads several contiguous chunks of pairs at
-once, concatenates them, shuffles the result and, finally, splits it into batches.
-This “weak shuffling” procedure greatly improves loading performances, but the
-resulting batch elements are not perfectly independent from each others.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.data.</span></span><span class="sig-name descname"><span class="pre">H5Dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.data.H5Dataset" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/data.py#L100-L263"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<dd><p>Creates an iterable dataset of pairs <span class="math notranslate nohighlight">\((\theta, x)\)</span> from HDF5 files.</p>
+<p>As it can be slow to load pairs from disk one by one, <a class="reference internal" href="#lampe.data.H5Dataset" title="lampe.data.H5Dataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">H5Dataset</span></code></a> implements
+a custom <code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__</span></code> method that loads several contiguous chunks of pairs at
+once and shuffles their concatenation before yielding the pairs one by one,
+unless a batch size is provided.</p>
+<p><a class="reference internal" href="#lampe.data.H5Dataset" title="lampe.data.H5Dataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">H5Dataset</span></code></a> also implements the <code class="xref py py-meth docutils literal notranslate"><span class="pre">__len__</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__</span></code>
+methods for convenience.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>To take advantage of the custom <code class="xref py py-meth docutils literal notranslate"><span class="pre">__iter__</span></code> method, <a class="reference internal" href="#lampe.data.H5Dataset" title="lampe.data.H5Dataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">H5Dataset</span></code></a>
-instances should not be wrapped inside a <a class="reference external" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader" title="(in PyTorch v1.11.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.data.DataLoader</span></code></a>
-when iterating over the dataset.</p>
+<p>When using <a class="reference internal" href="#lampe.data.H5Dataset" title="lampe.data.H5Dataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">H5Dataset</span></code></a> with <a class="reference external" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.data.DataLoader</span></code></a>, it is
+recommended to disable the loader’s automatic batching and provide the batch
+size to the dataset, as it significantly improves loading performances.
+In fact, unless using several workers or memory pinning, it is not even
+necessary to wrap the dataset in a <a class="reference external" href="https://pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.data.DataLoader</span></code></a>.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>files</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><em>Union</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><em>Path</em></a><em>]</em>) – HDF5 files containing pairs <span class="math notranslate nohighlight">\((\theta, x)\)</span>.</p></li>
-<li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The size of the batches.</p></li>
-<li><p><strong>chunk_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The size of the contiguous chunks.</p></li>
-<li><p><strong>group_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The number of chunks loaded at once.</p></li>
-<li><p><strong>pin_memory</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether the batches reside in CUDA pinned memory or not.</p></li>
-<li><p><strong>shuffle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether the pairs are shuffled when iterating.</p></li>
-<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – A seed to initialize the internal RNG used for shuffling.</p></li>
+<li><p><strong>files</strong> – HDF5 files containing pairs <span class="math notranslate nohighlight">\((\theta, x)\)</span>.</p></li>
+<li><p><strong>batch_size</strong> – The size of the batches.</p></li>
+<li><p><strong>chunk_size</strong> – The size of the contiguous chunks.</p></li>
+<li><p><strong>chunk_step</strong> – The number of chunks loaded at once.</p></li>
+<li><p><strong>shuffle</strong> – Whether the pairs are shuffled or not when iterating.</p></li>
 </ul>
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="n">H5Dataset</span><span class="p">(</span><span class="s1">'data.h5'</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="n">H5Dataset</span><span class="p">(</span><span class="s1">&#39;data.h5&#39;</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">theta</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">theta</span>
 <span class="go">tensor([-0.1215, -1.3641,  0.7233, -1.2150, -1.9263])</span>
@@ -310,29 +313,31 @@ when iterating over the dataset.</p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="lampe.data.H5Dataset.store">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pairs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype=&lt;class</span> <span class="pre">'numpy.float32'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**meta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.data.H5Dataset.store" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/data.py#L215-L271"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pairs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype=&lt;class</span> <span class="pre">'numpy.float32'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**meta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.data.H5Dataset.store" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/data.py#L207-L263"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
 <dd><p>Creates an HDF5 file containing pairs <span class="math notranslate nohighlight">\((\theta, x)\)</span>.</p>
 <p>The sets of parameters <span class="math notranslate nohighlight">\(\theta\)</span> are stored in a collection named
-<code class="code highlight python docutils literal notranslate"><span class="s1"><span class="pre">'theta'</span></span></code> and the observations in a collection named <code class="code highlight python docutils literal notranslate"><span class="s1"><span class="pre">'x'</span></span></code>.</p>
+<code class="code highlight python docutils literal highlight-python"><span class="s1">&#39;theta&#39;</span></code> and the observations in a collection named <code class="code highlight python docutils literal highlight-python"><span class="s1">&#39;x&#39;</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pairs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.10)"><em>Iterable</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><em>Tuple</em></a><em>[</em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>ndarray</em></a><em>, </em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.22)"><em>ndarray</em></a><em>]</em><em>]</em>) – An iterable over batched pairs <span class="math notranslate nohighlight">\((\theta, x)\)</span>.</p></li>
+<li><p><strong>pairs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.10)"><em>Iterable</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><em>Tuple</em></a><em>[</em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a><em>, </em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.23)"><em>ndarray</em></a><em>]</em><em>]</em>) – An iterable over batched pairs <span class="math notranslate nohighlight">\((\theta, x)\)</span>.</p></li>
 <li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><em>Union</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><em>Path</em></a><em>]</em>) – An HDF5 filename to store pairs in.</p></li>
 <li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The number of pairs to store.</p></li>
-<li><p><strong>dtype</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.dtype.html#numpy.dtype" title="(in NumPy v1.22)"><em>dtype</em></a>) – The data type to store pairs in.</p></li>
+<li><p><strong>dtype</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.dtype.html#numpy.dtype" title="(in NumPy v1.23)"><em>dtype</em></a>) – The data type to store pairs in.</p></li>
 <li><p><strong>meta</strong> – Metadata to store in the file.</p></li>
 </ul>
 </dd>
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loader</span> <span class="o">=</span> <span class="n">JointLoader</span><span class="p">(</span><span class="n">prior</span><span class="p">,</span> <span class="n">simulator</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">H5Dataset</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="s1">'sim.h5'</span><span class="p">,</span> <span class="mi">4096</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">H5Dataset</span><span class="o">.</span><span class="n">store</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="s1">&#39;data.h5&#39;</span><span class="p">,</span> <span class="mi">4096</span><span class="p">)</span>
 <span class="go">100%|██████████| 4096/4096 [01:35&lt;00:00, 42.69sample/s]</span>
 </pre></div>
 </div>
 </dd></dl>
+
 </dd></dl>
+
 </section>
 
         </article>
@@ -390,6 +395,7 @@ when iterating over the dataset.</p>
 </div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/scripts/furo.js"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

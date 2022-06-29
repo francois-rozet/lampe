@@ -1,14 +1,14 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Tutorials" href="tutorials.html" />
 
-    <link rel="shortcut icon" href="_static/logo_dark.svg"/><meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
+    <link rel="shortcut icon" href="_static/logo_dark.svg"/><meta name="generator" content="sphinx-5.0.2, furo 2022.06.21"/>
         <title>LAMPE</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -171,8 +171,9 @@
   <p class="caption" role="heading"><span class="caption-text">lampe</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="tutorials.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/01_npe.ipynb">1. Neural posterior estimation</a></li>
-<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/02_nre.ipynb">2. Neural ratio estimation</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/01_simulators.ipynb">1. Simulators and dataset</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/02_npe.ipynb">2. Neural posterior estimation</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/03_nre.ipynb">3. Neural ratio estimation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api/index.html">API</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -215,7 +216,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -229,11 +231,11 @@
           </label>
         </div>
         <article role="main">
-          <img alt="_images/banner.svg" class="only-light" src="_images/banner.svg"/><img alt="_images/banner_dark.svg" class="only-dark" src="_images/banner_dark.svg"/><section id="lampe">
-<h1>LAMPE<a class="headerlink" href="#lampe" title="Permalink to this headline">#</a></h1>
+          <img alt="_images/banner.svg" class="only-light" src="_images/banner.svg" /><img alt="_images/banner_dark.svg" class="only-dark" src="_images/banner_dark.svg" /><section id="lampe">
+<h1>LAMPE<a class="headerlink" href="#lampe" title="Permalink to this heading">#</a></h1>
 <p><code class="xref py py-mod docutils literal notranslate"><span class="pre">lampe</span></code> is a simulation-based inference (SBI) package that focuses on amortized estimation of posterior distributions, without relying on explicit likelihood functions; hence the name <em>Likelihood-free AMortized Posterior Estimation</em> (LAMPE). The package provides <a class="reference external" href="https://pytorch.org">PyTorch</a> implementations of modern amortized simulation-based inference algorithms like neural ratio estimation (NRE), neural posterior estimation (NPE) and more. Similar to PyTorch, the philosophy of LAMPE is to avoid obfuscation and expose all components, from network architecture to optimizer, to the user such that they are free to modify or replace anything they like.</p>
 <section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">#</a></h2>
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h2>
 <p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">lampe</span></code> package is available on <a class="reference external" href="https://pypi.org/project/lampe">PyPI</a>, which means it is installable via <code class="docutils literal notranslate"><span class="pre">pip</span></code>.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install lampe</span>
 </pre></div>
@@ -244,17 +246,19 @@
 </div>
 </section>
 <section id="simulation-based-inference">
-<h2>Simulation-based inference<a class="headerlink" href="#simulation-based-inference" title="Permalink to this headline">#</a></h2>
+<h2>Simulation-based inference<a class="headerlink" href="#simulation-based-inference" title="Permalink to this heading">#</a></h2>
 <p>In many areas of science, computer simulators are used to describe complex phenomena such as high energy particle interactions, gravitational waves or neuronal ion-channel dynamics. These simulators are stochastic models/programs that generate synthetic observations according to input parameters. A common task for scientists is to use such models to perform statistical inference of the parameters given one or more observations. Unfortunately, simulators often feature high-dimensional parameter spaces and intractable likelihoods, making inference challenging.</p>
-<p>Formally, a stochastic model takes a set of parameters <span class="math notranslate nohighlight">\(\theta \in \Theta\)</span> as input, samples internally a series <span class="math notranslate nohighlight">\(z \in \mathcal{Z}\)</span> of latent variables and, finally, produces an observation <span class="math notranslate nohighlight">\(x \in \mathcal{X} \sim p(x | \theta, z)\)</span> as output, thereby defining an implicit likelihood <span class="math notranslate nohighlight">\(p(x | \theta)\)</span>. This likelihood is typically <em>intractable</em> as it corresponds to the integral of the joint likelihood <span class="math notranslate nohighlight">\(p(x, z | \theta)\)</span> over <em>all</em> possible trajectories through the latent space <span class="math notranslate nohighlight">\(\mathcal{Z}\)</span>. Moreover, in Bayesian inference, we are interested in the posterior</p>
-<div class="math-wrapper"><div class="math notranslate nohighlight">
+<p>Formally, a stochastic model takes (a vector of) parameters <span class="math notranslate nohighlight">\(\theta \in \Theta\)</span> as input, samples internally a series <span class="math notranslate nohighlight">\(z \in \mathcal{Z}\)</span> of latent variables and, finally, produces an observation <span class="math notranslate nohighlight">\(x \in \mathcal{X} \sim p(x | \theta, z)\)</span> as output, thereby defining an implicit likelihood <span class="math notranslate nohighlight">\(p(x | \theta)\)</span>. This likelihood is typically <em>intractable</em> as it corresponds to the integral of the joint likelihood <span class="math notranslate nohighlight">\(p(x, z | \theta)\)</span> over <em>all</em> possible trajectories through the latent space <span class="math notranslate nohighlight">\(\mathcal{Z}\)</span>. Moreover, in Bayesian inference, we are interested in the posterior</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
 \[p(\theta | x)
 = \frac{p(x | \theta) p(\theta)}{p(x)}
-= \frac{p(x | \theta) p(\theta)}{\int_\Theta p(x | \theta') p(\theta') \operatorname{d}\!\theta'}\]</div></div>
-<p>for some observation <span class="math notranslate nohighlight">\(x\)</span> and a prior distribution <span class="math notranslate nohighlight">\(p(\theta)\)</span>, which not only involves the intractable likelihood <span class="math notranslate nohighlight">\(p(x | \theta)\)</span> but also an intractable integral over the parameter space <span class="math notranslate nohighlight">\(\Theta\)</span>. The omnipresence of this problem gave rise to a rapidly expanding field of research referred to as simulation-based inference (SBI). Pushed by the advances in machine learning, modern SBI approaches are to train a parametric surrogate <span class="math notranslate nohighlight">\(p_\phi(\theta | x)\)</span> of the posterior and, then, proceed as if the latter was tractable.</p>
+= \frac{p(x | \theta) p(\theta)}{\int_\Theta p(x | \theta') p(\theta') \operatorname{d}\!\theta'}\]</div>
+</div>
+<p>for some observation <span class="math notranslate nohighlight">\(x\)</span> and a prior distribution <span class="math notranslate nohighlight">\(p(\theta)\)</span>, which not only involves the intractable likelihood <span class="math notranslate nohighlight">\(p(x | \theta)\)</span> but also an intractable integral over the parameter space <span class="math notranslate nohighlight">\(\Theta\)</span>. The omnipresence of this problem gave rise to a rapidly expanding field of research referred to as simulation-based inference (SBI).</p>
 </section>
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h2>
 <p>The frontier of simulation-based inference
 (Cranmer et al., 2020)
 <a class="reference external" href="https://www.pnas.org/doi/10.1073/pnas.1912789117">https://www.pnas.org/doi/10.1073/pnas.1912789117</a></p>
@@ -348,6 +352,7 @@
 </div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/scripts/furo.js"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

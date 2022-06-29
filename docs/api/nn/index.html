@@ -1,14 +1,14 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="lampe.nn.flows" href="flows.html" /><link rel="prev" title="API" href="../index.html" />
 
-    <link rel="shortcut icon" href="../../_static/logo_dark.svg"/><meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
+    <link rel="shortcut icon" href="../../_static/logo_dark.svg"/><meta name="generator" content="sphinx-5.0.2, furo 2022.06.21"/>
         <title>lampe.nn - LAMPE</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -171,8 +171,9 @@
   <p class="caption" role="heading"><span class="caption-text">lampe</span></p>
 <ul class="current">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../tutorials.html">Tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/01_npe.ipynb">1. Neural posterior estimation</a></li>
-<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/02_nre.ipynb">2. Neural ratio estimation</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/01_simulators.ipynb">1. Simulators and dataset</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/02_npe.ipynb">2. Neural posterior estimation</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://github.com/francois-rozet/lampe/blob/docs/notebooks/03_nre.ipynb">3. Neural ratio estimation</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
@@ -215,7 +216,8 @@
           </svg>
           <span>Back to top</span>
         </a>
-        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -230,7 +232,7 @@
         </div>
         <article role="main">
           <section id="module-lampe.nn">
-<span id="lampe-nn"></span><h1>lampe.nn<a class="headerlink" href="#module-lampe.nn" title="Permalink to this headline">#</a></h1>
+<span id="lampe-nn"></span><h1>lampe.nn<a class="headerlink" href="#module-lampe.nn" title="Permalink to this heading">#</a></h1>
 <p>Neural networks, layers and modules.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="lampe.nn.MLP">
@@ -238,14 +240,16 @@
 <dd><p>Creates a multi-layer perceptron (MLP).</p>
 <p>Also known as fully connected feedforward network, an MLP is a series of
 non-linear parametric transformations</p>
-<div class="math-wrapper"><div class="math notranslate nohighlight">
-\[h_{i + 1} = a_{i + 1}(W_{i + 1}^T h_i + b_{i + 1}),\]</div></div>
-<p>over feature vectors <span class="math notranslate nohighlight">\(h_i\)</span>, with the input and ouput feature vectors
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[h_{i + 1} = a_{i + 1}(W_{i + 1}^T h_i + b_{i + 1}),\]</div>
+</div>
+<p>over feature vectors <span class="math notranslate nohighlight">\(h_i\)</span>, with the input and output feature vectors
 <span class="math notranslate nohighlight">\(x = h_0\)</span> and <span class="math notranslate nohighlight">\(y = h_L\)</span>, respectively. The non-linear functions
 <span class="math notranslate nohighlight">\(a_i\)</span> are called activation functions. The trainable parameters of an MLP
 are its weights and biases <span class="math notranslate nohighlight">\(\phi = \{W_i, b_i | i = 1, \dots, L\}\)</span>.</p>
 <p class="rubric">Wikipedia</p>
-<p><a class="reference external" href="https://en.wikipedia.org/wiki/Feedforward_neural_network">https://en.wikipedia.org/wiki/Feedforward_neural_network</a></p>
+<p><a class="reference external" href="https://wikipedia.org/wiki/Feedforward_neural_network">https://wikipedia.org/wiki/Feedforward_neural_network</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -255,12 +259,12 @@ are its weights and biases <span class="math notranslate nohighlight">\(\phi = \
 <li><p><strong>activation</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The activation layer type.</p></li>
 <li><p><strong>batchnorm</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether to use batch normalization or not.</p></li>
 <li><p><strong>dropout</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – The dropout rate.</p></li>
-<li><p><strong>kwargs</strong> – Keyword arguments passed to <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.Linear.html#torch.nn.Linear" title="(in PyTorch v1.11.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Linear</span></code></a>.</p></li>
+<li><p><strong>kwargs</strong> – Keyword arguments passed to <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.Linear.html#torch.nn.Linear" title="(in PyTorch v1.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Linear</span></code></a>.</p></li>
 </ul>
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">16</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'ELU'</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">16</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;ELU&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">net</span>
 <span class="go">MLP(</span>
 <span class="go">  (0): Linear(in_features=64, out_features=32, bias=True)</span>
@@ -272,13 +276,16 @@ are its weights and biases <span class="math notranslate nohighlight">\(\phi = \
 </pre></div>
 </div>
 </dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="lampe.nn.ResBlock">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.nn.</span></span><span class="sig-name descname"><span class="pre">ResBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.nn.ResBlock" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/nn/__init__.py#L137-L175"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
 <dd><p>Creates a residual block.</p>
 <p>A residual block is a function of the type</p>
-<div class="math-wrapper"><div class="math notranslate nohighlight">
-\[y = x + f(x),\]</div></div>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[y = x + f(x),\]</div>
+</div>
 <p>where <span class="math notranslate nohighlight">\(f\)</span> is a non-linear parametric transformation. An MLP with a
 constant number of features in hidden layers is commonly used as <span class="math notranslate nohighlight">\(f\)</span>.</p>
 <dl class="field-list simple">
@@ -291,7 +298,7 @@ constant number of features in hidden layers is commonly used as <span class="ma
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">ResBlock</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">hidden_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'ELU'</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">ResBlock</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">hidden_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;ELU&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">net</span>
 <span class="go">ResBlock(</span>
 <span class="go">  (0): Linear(in_features=32, out_features=32, bias=True)</span>
@@ -305,6 +312,7 @@ constant number of features in hidden layers is commonly used as <span class="ma
 </pre></div>
 </div>
 </dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="lampe.nn.ResMLP">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.nn.</span></span><span class="sig-name descname"><span class="pre">ResMLP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hidden_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[64,</span> <span class="pre">64]</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.nn.ResMLP" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/nn/__init__.py#L178-L238"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
@@ -323,7 +331,7 @@ reduces the vanishing of gradients and allows for deeper networks.</p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">ResMLP</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">16</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'ELU'</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">ResMLP</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">16</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;ELU&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">net</span>
 <span class="go">ResMLP(</span>
 <span class="go">  (0): Linear(in_features=64, out_features=32, bias=True)</span>
@@ -347,6 +355,7 @@ reduces the vanishing of gradients and allows for deeper networks.</p>
 </pre></div>
 </div>
 </dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="lampe.nn.MaskedMLP">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.nn.</span></span><span class="sig-name descname"><span class="pre">MaskedMLP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adjacency</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.nn.MaskedMLP" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/nn/__init__.py#L260-L318"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
@@ -369,7 +378,7 @@ reduces the vanishing of gradients and allows for deeper networks.</p>
 <span class="go">        [ True, False,  True, False],</span>
 <span class="go">        [False,  True, False, False],</span>
 <span class="go">        [False,  True,  True, False]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">MaskedMLP</span><span class="p">(</span><span class="n">adjacency</span><span class="p">,</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'ELU'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">net</span> <span class="o">=</span> <span class="n">MaskedMLP</span><span class="p">(</span><span class="n">adjacency</span><span class="p">,</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;ELU&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">net</span>
 <span class="go">MaskedMLP(</span>
 <span class="go">  (0): MaskedLinear(in_features=4, out_features=16, bias=True)</span>
@@ -387,6 +396,7 @@ reduces the vanishing of gradients and allows for deeper networks.</p>
 </pre></div>
 </div>
 </dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="lampe.nn.MonotonicMLP">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lampe.nn.</span></span><span class="sig-name descname"><span class="pre">MonotonicMLP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lampe.nn.MonotonicMLP" title="Permalink to this definition">#</a><a class="reference external" href="https://github.com/francois-rozet/lampe/tree/docs/lampe/nn/__init__.py#L353-L395"><span class="viewcode-link"><i class="fa-solid fa-code"></i></span></a></dt>
@@ -420,6 +430,7 @@ reduces the vanishing of gradients and allows for deeper networks.</p>
 </pre></div>
 </div>
 </dd></dl>
+
 <div class="toctree-wrapper compound">
 </div>
 </section>
@@ -479,6 +490,7 @@ reduces the vanishing of gradients and allows for deeper networks.</p>
 </div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/scripts/furo.js"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
