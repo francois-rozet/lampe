@@ -203,7 +203,7 @@ class AMNRE(NRE):
             theta = theta.new_zeros(b.shape).masked_scatter(b, theta)
 
         theta = self.standardize(theta) * b
-        theta, x, b = broadcast(theta, x, b * 2. - 1., ignore=1)
+        theta, x, b = broadcast(theta, x, b * 2.0 - 1.0, ignore=1)
 
         return self.net(torch.cat((theta, x, b), dim=-1)).squeeze(-1)
 
@@ -394,7 +394,7 @@ class AMNPE(NPE):
             The log-density :math:`\log p_\phi(\theta | x, b)`, with shape :math:`(*,)`.
         """
 
-        theta, x, b = broadcast(theta, x, b * 2. - 1., ignore=1)
+        theta, x, b = broadcast(theta, x, b * 2.0 - 1.0, ignore=1)
 
         return self.flow(torch.cat((x, b), dim=-1)).log_prob(theta)
 
@@ -411,7 +411,7 @@ class AMNPE(NPE):
             with shape :math:`S + (*, D)`.
         """
 
-        x, b_ = broadcast(x, b * 2. - 1., ignore=1)
+        x, b_ = broadcast(x, b * 2.0 - 1.0, ignore=1)
 
         return self.flow(torch.cat((x, b_), dim=-1)).sample(shape)[..., b]
 
@@ -507,7 +507,7 @@ class MetropolisHastings(object):
         x_0: Tensor,
         f: Callable[[Tensor], Tensor] = None,
         log_f: Callable[[Tensor], Tensor] = None,
-        sigma: Union[float, Tensor] = 1.,
+        sigma: Union[float, Tensor] = 1.0,
     ):
         super().__init__()
 

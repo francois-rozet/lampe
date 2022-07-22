@@ -1,5 +1,7 @@
 r"""Datasets and data loaders."""
 
+__all__ = ['JointLoader', 'H5Dataset']
+
 import h5py
 import numpy as np
 import random
@@ -14,9 +16,6 @@ from torch.distributions import Distribution
 from torch.utils.data import DataLoader, Dataset, IterableDataset
 from tqdm import tqdm
 from typing import *
-
-
-__all__ = ['JointLoader', 'H5Dataset']
 
 
 class IterableJointDataset(IterableDataset):
@@ -254,8 +253,8 @@ class H5Dataset(IterableDataset):
                 while True:
                     j = min(i + theta.shape[0], size)
 
-                    f['theta'][i:j] = theta[:j-i]
-                    f['x'][i:j] = x[:j-i]
+                    f['theta'][i:j] = theta[: j - i]
+                    f['x'][i:j] = x[: j - i]
 
                     tq.update(j - i)
 

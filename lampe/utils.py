@@ -30,12 +30,9 @@ def broadcast(*tensors: Tensor, ignore: Union[int, List[int]] = 0) -> Tuple[Tens
 
     if type(ignore) is int:
         ignore = [ignore] * len(tensors)
-    dims = [t.dim() - i for t, i in zip(tensors, ignore)]
 
-    common = torch.broadcast_shapes(*(
-        t.shape[:i]
-        for t, i in zip(tensors, dims)
-    ))
+    dims = [t.dim() - i for t, i in zip(tensors, ignore)]
+    common = torch.broadcast_shapes(*(t.shape[:i] for t, i in zip(tensors, dims)))
 
     return tuple(
         torch.broadcast_to(t, common + t.shape[i:])

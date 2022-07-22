@@ -98,10 +98,7 @@ class Joint(Distribution):
 
     @property
     def event_shape(self) -> Size:
-        return Size([sum(
-            m.event_shape.numel()
-            for m in self.marginals
-        )])
+        return Size([sum(m.event_shape.numel() for m in self.marginals)])
 
     def expand(self, batch_shape: Size, new: Distribution = None) -> Distribution:
         new = self._get_checked_instance(Joint, new)
@@ -186,12 +183,12 @@ class GeneralizedNormal(Distribution):
         return (
             torch.log(self.beta / 2)
             - torch.lgamma(1 / self.beta)
-            - abs(x)**self.beta
+            - abs(x) ** self.beta
         )
 
     def rsample(self, shape: Size = ()) -> Tensor:
         beta = self.beta.expand(shape + self.beta.shape)
-        x = torch._standard_gamma(1 / beta)**(1 / beta)
+        x = torch._standard_gamma(1 / beta) ** (1 / beta)
         x = x * torch.sign(2 * torch.rand_like(x) - 1)
         return x
 
@@ -413,11 +410,7 @@ class Sort(Distribution):
 
         ordered = ordered.all(dim=0)
 
-        return (
-            ordered.log()
-            + self.log_fact
-            + self.base.log_prob(x).sum(dim=0)
-        )
+        return ordered.log() + self.log_fact + self.base.log_prob(x).sum(dim=0)
 
     def sample(self, shape: Size = ()) -> Tensor:
         x = torch.movedim(self.base.sample((self.n,) + shape), 0, -1)
@@ -486,7 +479,7 @@ class TopK(Sort):
         return (self.n - self.k) * cdf.log() + super().log_prob(x)
 
     def sample(self, shape: Size = ()) -> Tensor:
-        return super().sample(shape)[..., :self.k]
+        return super().sample(shape)[..., : self.k]
 
 
 class Minimum(TopK):

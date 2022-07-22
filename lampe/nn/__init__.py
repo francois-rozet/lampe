@@ -1,14 +1,13 @@
 r"""Neural networks, layers and modules."""
 
+__all__ = ['MLP', 'ResBlock', 'ResMLP', 'MaskedMLP', 'MonotonicMLP']
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
 from torch import Tensor, BoolTensor
 from typing import *
-
-
-__all__ = ['MLP', 'ResBlock', 'ResMLP', 'MaskedMLP', 'MonotonicMLP']
 
 
 class Affine(nn.Module):
@@ -98,7 +97,7 @@ class MLP(nn.Sequential):
         hidden_features: List[int] = [64, 64],
         activation: str = 'ReLU',
         batchnorm: bool = False,
-        dropout: float = 0.,
+        dropout: float = 0.0,
         **kwargs,
     ):
         activation = {

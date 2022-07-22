@@ -1,14 +1,13 @@
 r"""Plotting helpers."""
 
+__all__ = ['nice_rc', 'corner', 'mark_point', 'rank_ecdf']
+
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
 from numpy import ndarray as Array
 from typing import *
-
-
-__all__ = ['nice_rc', 'corner', 'mark_point', 'rank_ecdf']
 
 
 def nice_rc(latex: bool = False) -> Dict[str, Any]:
@@ -25,20 +24,20 @@ def nice_rc(latex: bool = False) -> Dict[str, Any]:
 
     rc = {
         'axes.axisbelow': True,
-        'axes.linewidth': .8,
+        'axes.linewidth': 0.8,
         'figure.autolayout': True,
         'figure.dpi': 150,
         'figure.figsize': (6.4, 4.8),
-        'font.size': 12.,
+        'font.size': 12.0,
         'legend.fontsize': 'x-small',
-        'lines.linewidth': 1.,
-        'lines.markersize': 3.,
+        'lines.linewidth': 1.0,
+        'lines.markersize': 3.0,
         'savefig.bbox': 'tight',
         'savefig.transparent': True,
         'xtick.labelsize': 'x-small',
-        'xtick.major.width': .8,
+        'xtick.major.width': 0.8,
         'ytick.labelsize': 'x-small',
-        'ytick.major.width': .8,
+        'ytick.major.width': 0.8,
     }
 
     if mpl.checkdep_usetex(latex):
@@ -65,7 +64,7 @@ class LinearAlphaColormap(mpl.colors.LinearSegmentedColormap):
         self,
         color: Union[str, tuple],
         levels: Array = None,
-        alpha: Tuple[float, float] = (0., 1.),
+        alpha: Tuple[float, float] = (0.0, 1.0),
         name: str = None,
     ):
         if name is None:
@@ -75,18 +74,14 @@ class LinearAlphaColormap(mpl.colors.LinearSegmentedColormap):
                 name = f'alpha_{hash(color)}'
 
         if levels is None:
-            levels = [0., 1.]
+            levels = [0.0, 1.0]
 
         levels = np.asarray(levels)
         levels = (levels - levels.min()) / (levels.max() - levels.min())
         alpha = np.linspace(*alpha, len(levels))
 
         rgb = mpl.colors.to_rgb(color)
-
-        colors = sorted([
-            (l, rgb + (a,))
-            for l, a in zip(levels, alpha)
-        ])
+        colors = sorted((l, rgb + (a,)) for l, a in zip(levels, alpha))
 
         return mpl.colors.LinearSegmentedColormap.from_list(
             name=name,
@@ -94,7 +89,7 @@ class LinearAlphaColormap(mpl.colors.LinearSegmentedColormap):
         )
 
 
-def gaussian_blur(img: Array, sigma: float = 1.) -> Array:
+def gaussian_blur(img: Array, sigma: float = 1.0) -> Array:
     r"""Applies a Gaussian blur to an image.
 
     Arguments:
@@ -113,7 +108,7 @@ def gaussian_blur(img: Array, sigma: float = 1.) -> Array:
     size = 2 * int(3 * sigma) + 1
 
     k = np.arange(size) - size / 2
-    k = np.exp(-k ** 2 / (2 * sigma ** 2))
+    k = np.exp(-(k**2) / (2 * sigma**2))
     k = k / np.sum(k)
 
     smooth = lambda x: np.convolve(x, k, mode='same')
@@ -143,9 +138,9 @@ def corner(
     data: Array,
     bins: Union[int, List[int]] = 100,
     bounds: Tuple[Array, Array] = None,
-    creds: Array = [.6827, .9545, .9973],
+    creds: Array = [0.6827, 0.9545, 0.9973],
     color: Union[str, tuple] = None,
-    alpha: Tuple[float, float] = (0., .5),
+    alpha: Tuple[float, float] = (0.0, 0.5),
     legend: str = None,
     labels: List[str] = None,
     smooth: float = 0,
@@ -244,7 +239,7 @@ def corner(
             D, D,
             squeeze=False,
             sharex='col',
-            gridspec_kw={'wspace': 0., 'hspace': 0.},
+            gridspec_kw={'wspace': 0.0, 'hspace': 0.0},
             **kwargs,
         )
         new = True
@@ -304,11 +299,10 @@ def corner(
                 ax.plot(x, hist, color=color)
 
                 _, top = ax.get_ylim()
-                bottom = 0.
                 top = max(top, hist.max() * 1.0625)
 
                 ax.set_xlim(left=bins[i][0], right=bins[i][-1])
-                ax.set_ylim(bottom=bottom, top=top)
+                ax.set_ylim(bottom=0.0, top=top)
             else:
                 levels = np.unique(credible_levels(hist, creds))
 
@@ -329,7 +323,7 @@ def corner(
                 ax.xaxis.set_major_locator(mpl.ticker.MaxNLocator(3, prune='both'))
                 plt.setp(
                     ax.get_xticklabels(),
-                    rotation=45.,
+                    rotation=45.0,
                     horizontalalignment='right',
                     rotation_mode='anchor',
                 )

@@ -1,5 +1,11 @@
 r"""Flows and parametric distributions."""
 
+__all__ = [
+    'DistributionModule', 'TransformModule', 'FlowModule',
+    'MaskedAutoregressiveTransform', 'MAF', 'NSF',
+    'NeuralAutoregressiveTransform', 'NAF',
+]
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -11,13 +17,6 @@ from typing import *
 from . import MLP, MaskedMLP, MonotonicMLP
 from ..distributions import *
 from ..utils import broadcast
-
-
-__all__ = [
-    'DistributionModule', 'TransformModule', 'FlowModule',
-    'MaskedAutoregressiveTransform', 'MAF', 'NSF',
-    'NeuralAutoregressiveTransform', 'NAF',
-]
 
 
 class DistributionModule(nn.Module):
@@ -280,7 +279,7 @@ class NSF(MAF):
             features=features,
             context=context,
             univariate=MonotonicRQSTransform,
-            shapes=[(bins,), (bins,), (bins-1,)],
+            shapes=[(bins,), (bins,), (bins - 1,)],
             **kwargs,
         )
 
@@ -321,9 +320,7 @@ class NeuralAutoregressiveTransform(MaskedAutoregressiveTransform):
 
     def univariate(self, signal: Tensor) -> MonotonicTransform:
         def f(x: Tensor) -> Tensor:
-            return self.transform(
-                torch.cat((x[..., None], signal), dim=-1)
-            ).squeeze(-1)
+            return self.transform(torch.cat((x[..., None], signal), dim=-1)).squeeze(-1)
 
         return MonotonicTransform(f)
 

@@ -170,7 +170,7 @@ class MonotonicRQSTransform(Transform):
         mask = torch.logical_and(0 <= k, k < self.bins)
 
         k = k % self.bins
-        k0_k1 = torch.stack((k, k+1))
+        k0_k1 = torch.stack((k, k + 1))
 
         k0_k1, hs, vs, ds = broadcast(
             k0_k1[..., None],
@@ -198,11 +198,8 @@ class MonotonicRQSTransform(Transform):
 
         z = mask * (x - x0) / (x1 - x0)
 
-        y = (
-            y0 +
-            (y1 - y0) *
-            (s * z**2 + d0 * z * (1 - z)) /
-            (s + (d0 + d1 - 2 * s) * z * (1 - z))
+        y = y0 + (y1 - y0) * (s * z**2 + d0 * z * (1 - z)) / (
+            s + (d0 + d1 - 2 * s) * z * (1 - z)
         )
 
         return torch.where(mask, y, x)
@@ -231,8 +228,8 @@ class MonotonicRQSTransform(Transform):
 
         jacobian = (
             s**2
-            * (2 * s * z * (1 - z) + d0 * (1 - z)**2 + d1 * z**2)
-            / (s + (d0 + d1 - 2 * s) * z * (1 - z))**2
+            * (2 * s * z * (1 - z) + d0 * (1 - z) ** 2 + d1 * z**2)
+            / (s + (d0 + d1 - 2 * s) * z * (1 - z)) ** 2
         )
 
         return torch.log(jacobian) * mask
@@ -271,7 +268,7 @@ class MonotonicTransform(Transform):
         self.eps = eps
 
     def _call(self, x: Tensor) -> Tensor:
-        return self.f(x / torch.sqrt(1 + (x / self.bound)**2))
+        return self.f(x / torch.sqrt(1 + (x / self.bound) ** 2))
 
     def _inverse(self, y: Tensor) -> Tensor:
         a = torch.full_like(y, -self.bound)
@@ -287,7 +284,7 @@ class MonotonicTransform(Transform):
 
         x = (a + b) / 2
 
-        return x / torch.sqrt(1 - (x / self.bound)**2)
+        return x / torch.sqrt(1 - (x / self.bound) ** 2)
 
     def log_abs_det_jacobian(self, x: Tensor, y: Tensor) -> Tensor:
         return torch.log(torch.autograd.functional.jacobian(
