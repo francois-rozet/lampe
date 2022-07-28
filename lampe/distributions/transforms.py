@@ -25,23 +25,20 @@ class PermutationTransform(Transform):
     codomain = constraints.real_vector
     bijective = True
 
-    def __init__(
-        self,
-        order: LongTensor,
-        **kwargs,
-    ):
+    def __init__(self, order: LongTensor, **kwargs):
         super().__init__(**kwargs)
 
         self.order = order
+        self.inverse = torch.argsort(order)
 
     def __repr__(self) -> str:
         return f'{self.__class__.__name__}({self.order.tolist()})'
 
     def _call(self, x: Tensor) -> Tensor:
-        return x.gather(-1, self.order.expand(x.shape))
+        return x[..., self.order]
 
     def _inverse(self, y: Tensor) -> Tensor:
-        return y.gather(-1, torch.argsort(self.order, -1).expand(y.shape))
+        return y[..., self.inverse]
 
     def log_abs_det_jacobian(self, x: Tensor, y: Tensor) -> Tensor:
         return x.new_zeros(x.shape[:-1])
@@ -264,7 +261,7 @@ class MonotonicTransform(Transform):
         self,
         f: Callable[[Tensor], Tensor],
         bound: float = 1e1,
-        eps: float = 1e-6,
+        eps: float = 1e-5,
         **kwargs,
     ):
         super().__init__(**kwargs)
@@ -280,7 +277,7 @@ class MonotonicTransform(Transform):
         a = torch.full_like(y, -self.bound)
         b = torch.full_like(y, self.bound)
 
-        for _ in range(int(math.log2(self.bound / self.eps))):
+        for _ in range(math.ceil(math.log2(2 * self.bound / self.eps))):
             c = (a + b) / 2
 
             mask = self.f(c) < y

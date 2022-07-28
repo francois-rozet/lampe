@@ -183,7 +183,8 @@ def corner(
     """
 
     # Histograms
-    data = np.asarray(data)
+    if not isinstance(data, Array):
+        data = np.asarray(data, dtype=object)
 
     if np.isscalar(data[0, 0]):
         D = data.shape[-1]

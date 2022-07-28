@@ -24,8 +24,8 @@ class Affine(nn.Module):
     def __init__(self, shift: Tensor, scale: Tensor):
         super().__init__()
 
-        self.shift = nn.Parameter(torch.tensor(shift).float())
-        self.scale = nn.Parameter(torch.tensor(scale).float())
+        self.shift = nn.Parameter(torch.as_tensor(shift))
+        self.scale = nn.Parameter(torch.as_tensor(scale))
 
     def forward(self, x: Tensor) -> Tensor:
         return x * self.scale + self.shift
@@ -60,7 +60,7 @@ class MLP(nn.Sequential):
     Also known as fully connected feedforward network, an MLP is a series of
     non-linear parametric transformations
 
-    .. math:: h_{i + 1} = a_{i + 1}(W_{i + 1}^T h_i + b_{i + 1}),
+    .. math:: h_{i + 1} = a_{i + 1}(h_i W_{i + 1}^T + b_{i + 1}),
 
     over feature vectors :math:`h_i`, with the input and output feature vectors
     :math:`x = h_0` and :math:`y = h_L`, respectively. The non-linear functions
@@ -249,9 +249,9 @@ class MaskedLinear(nn.Linear):
     """
 
     def __init__(self, adjacency: BoolTensor, **kwargs):
-        super().__init__(*adjacency.shape, **kwargs)
+        super().__init__(*reversed(adjacency.shape), **kwargs)
 
-        self.register_buffer('mask', adjacency.t())
+        self.register_buffer('mask', adjacency)
 
     def forward(self, x: Tensor) -> Tensor:
         return F.linear(x, self.mask * self.weight, self.bias)
@@ -261,7 +261,7 @@ class MaskedMLP(MLP):
     r"""Creates a masked multi-layer perceptron.
 
     The resulting MLP is a transformation :math:`y = f(x)` whose Jacobian entries
-    :math:`\frac{\partial y_j}{\partial x_i}` are null if :math:`A_{ij} = 0`.
+    :math:`\frac{\partial y_i}{\partial x_j}` are null if :math:`A_{ij} = 0`.
 
     Arguments:
         adjacency: The adjacency matrix :math:`A \in \{0, 1\}^{M \times N}`.
@@ -269,51 +269,49 @@ class MaskedMLP(MLP):
         kwargs: Keyword arguments passed to :class:`MLP`.
 
     Example:
-        >>> adjacency = torch.rand(4, 4) < 0.5
+        >>> adjacency = torch.randn(4, 3) < 0
         >>> adjacency
-        tensor([[False,  True, False, False],
-                [ True, False,  True, False],
-                [False,  True, False, False],
-                [False,  True,  True, False]])
+        tensor([[False,  True, False],
+                [ True, False,  True],
+                [False,  True, False],
+                [False,  True,  True]])
         >>> net = MaskedMLP(adjacency, [16, 32], activation='ELU')
         >>> net
         MaskedMLP(
-          (0): MaskedLinear(in_features=4, out_features=16, bias=True)
+          (0): MaskedLinear(in_features=3, out_features=16, bias=True)
           (1): ELU(alpha=1.0)
           (2): MaskedLinear(in_features=16, out_features=32, bias=True)
           (3): ELU(alpha=1.0)
           (4): MaskedLinear(in_features=32, out_features=4, bias=True)
         )
-        >>> x = torch.randn(4)
-        >>> torch.autograd.functional.jacobian(net, x).t()
-        tensor([[ 0.0000,  0.0031,  0.0000,  0.0000],
-                [-0.0323,  0.0000, -0.0547,  0.0000],
-                [ 0.0000, -0.0245,  0.0000,  0.0000],
-                [ 0.0000,  0.0060, -0.0063,  0.0000]])
+        >>> x = torch.randn(3)
+        >>> torch.autograd.functional.jacobian(net, x)
+        tensor([[ 0.0000,  0.0031,  0.0000],
+                [-0.0323,  0.0000, -0.0547],
+                [ 0.0000, -0.0245,  0.0000],
+                [ 0.0000,  0.0060, -0.0063]])
     """
 
-    def __init__(
-        self,
-        adjacency: BoolTensor,
-        *args,
-        **kwargs,
-    ):
-        super().__init__(*adjacency.shape, *args, **kwargs)
+    def __init__(self, adjacency: BoolTensor, *args, **kwargs):
+        super().__init__(*reversed(adjacency.shape), *args, **kwargs)
 
-        # i precedes j if A_kj = 1 for all k such that A_ki = 1
-        precedence = adjacency.t().int() @ adjacency.int() == adjacency.sum(dim=0).unsqueeze(-1)
+        # j precedes i if A_ik = 1 for all k such that A_jk = 1
+        precedence = adjacency.int() @ adjacency.int().t() == adjacency.sum(dim=-1)
 
         for i, layer in enumerate(self):
             if isinstance(layer, nn.Linear):
                 if i > 0:
-                    mask = precedence[indices]
+                    mask = precedence[:, indices]
                 else:
                     mask = adjacency
 
+                if (~mask).all():
+                    raise ValueError("The adjacency matrix leads to a null Jacobian.")
+
                 if i < len(self) - 1:
-                    reachable = mask.sum(0).nonzero().squeeze()
+                    reachable = mask.sum(dim=-1).nonzero().squeeze()
                     indices = reachable[torch.arange(layer.out_features) % len(reachable)]
-                    mask = mask[:, indices]
+                    mask = mask[indices]
 
                 self[i] = MaskedLinear(adjacency=mask)
 
@@ -361,28 +359,24 @@ class MonotonicMLP(MLP):
         kwargs: Keyword arguments passed to :class:`MLP`.
 
     Example:
-        >>> net = MonotonicMLP(4, 4, [16, 32])
+        >>> net = MonotonicMLP(3, 4, [16, 32])
         >>> net
         MonotonicMLP(
-          (0): MonotonicLinear(in_features=4, out_features=16, bias=True)
+          (0): MonotonicLinear(in_features=3, out_features=16, bias=True)
           (1): TwoWayELU(alpha=1.0)
           (2): MonotonicLinear(in_features=16, out_features=32, bias=True)
           (3): TwoWayELU(alpha=1.0)
           (4): MonotonicLinear(in_features=32, out_features=4, bias=True)
         )
-        >>> x = torch.randn(4)
-        >>> torch.autograd.functional.jacobian(net, x).t()
-        tensor([[0.8742, 0.9439, 0.9759, 1.1040],
-                [0.8969, 0.9716, 0.9866, 1.1321],
-                [1.0780, 1.1651, 1.2056, 1.3674],
-                [0.8596, 0.9400, 0.9502, 1.0916]])
+        >>> x = torch.randn(3)
+        >>> torch.autograd.functional.jacobian(net, x)
+        tensor([[0.8742, 0.9439, 0.9759],
+                [0.8969, 0.9716, 0.9866],
+                [1.0780, 1.1651, 1.2056],
+                [0.8596, 0.9400, 0.9502]])
     """
 
-    def __init__(
-        self,
-        *args,
-        **kwargs,
-    ):
+    def __init__(self, *args, **kwargs):
         kwargs['activation'] = 'ELU'
         kwargs['batchnorm'] = False
 

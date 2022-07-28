@@ -198,12 +198,9 @@ class AMNRE(NRE):
             The log-ratio :math:`\log r_\phi(\theta_b, x, b)`, with shape :math:`(*,)`.
         """
 
-        zeros = theta.new_zeros(theta.shape[:-1] + b.shape[-1:])
-
-        if b.dim() == 1 and theta.shape[-1] < b.numel():
-            theta = zeros.masked_scatter(b, theta)
-        else:
-            theta = torch.where(b, theta, zeros)
+        if theta.shape[-1] < b.shape[-1]:
+            theta, b = broadcast(theta, b, ignore=1)
+            theta = theta.new_zeros(b.shape).masked_scatter(b, theta)
 
         theta = self.standardize(theta) * b
         theta, x, b = broadcast(theta, x, b * 2. - 1., ignore=1)
@@ -414,9 +411,9 @@ class AMNPE(NPE):
             with shape :math:`S + (*, D)`.
         """
 
-        x, b = broadcast(x, b * 2. - 1., ignore=1)
+        x, b_ = broadcast(x, b * 2. - 1., ignore=1)
 
-        return self.flow(torch.cat((x, b), dim=-1)).sample(shape)[..., b]
+        return self.flow(torch.cat((x, b_), dim=-1)).sample(shape)[..., b]
 
 
 class AMNPELoss(nn.Module):
@@ -496,10 +493,10 @@ class MetropolisHastings(object):
             Either a scalar or a vector.
 
     Example:
-        >>> x_0 = torch.rand(128, 7)
+        >>> x_0 = torch.randn(128, 7)
         >>> log_f = lambda x: -(x**2).sum(dim=-1) / 2
         >>> sampler = MetropolisHastings(x_0, log_f=log_f, sigma=0.5)
-        >>> samples = [x for x in sampler(2**8, burn=2**7, step=2**2)]
+        >>> samples = [x for x in sampler(256, burn=128, step=4)]
         >>> samples = torch.stack(samples)
         >>> samples.shape
         torch.Size([32, 128, 7])
@@ -524,8 +521,14 @@ class MetropolisHastings(object):
         else:
             self.log_f = lambda x: f(x).log()
 
-        self.q = lambda x: DiagNormal(x, torch.ones_like(x) * sigma)
-        self.symmetric = True  # q(x | y) is equal to q(y | x)
+        self.sigma = sigma
+
+    def q(self, x: Tensor) -> Distribution:
+        return DiagNormal(x, torch.ones_like(x) * self.sigma)
+
+    @property
+    def symmetric(self) -> bool:
+        return True
 
     def __iter__(self) -> Iterator[Tensor]:
         x = self.x_0

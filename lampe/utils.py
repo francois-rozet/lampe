@@ -8,7 +8,7 @@ from torch.optim import Optimizer
 from typing import *
 
 
-def broadcast(*tensors: Tensor, ignore: Union[int, List[int]] = 0) -> List[Tensor]:
+def broadcast(*tensors: Tensor, ignore: Union[int, List[int]] = 0) -> Tuple[Tensor, ...]:
     r"""Broadcasts tensors together.
 
     The term broadcasting describes how PyTorch treats tensors with different shapes
@@ -37,10 +37,10 @@ def broadcast(*tensors: Tensor, ignore: Union[int, List[int]] = 0) -> List[Tenso
         for t, i in zip(tensors, dims)
     ))
 
-    return [
+    return tuple(
         torch.broadcast_to(t, common + t.shape[i:])
         for t, i in zip(tensors, dims)
-    ]
+    )
 
 
 def deepto(obj: Any, *args, **kwargs) -> Any:
@@ -94,9 +94,9 @@ def starcompose(*fs: Callable) -> Callable:
         The composition :math:`g`.
 
     Example:
-        >>> g = starcompose(lambda x: x**2, lambda x: x/2)
-        >>> g(5)
-        12.5
+        >>> g = starcompose(lambda x: (x, x**2), lambda x, y: x + y)
+        >>> g(2)
+        6
     """
 
     def g(*x: Any) -> Any:
@@ -138,7 +138,7 @@ class GDStep(object):
         self.clip = clip
 
     def __call__(self, loss: Tensor) -> Tensor:
-        if loss.isfinite():
+        if loss.isfinite().all():
             self.optimizer.zero_grad()
             loss.backward()
 
@@ -153,7 +153,6 @@ class GDStep(object):
 
 
 def gridapply(
-    self,
     f: Callable[[Tensor], Tensor],
     bins: Union[int, List[int]],
     bounds: Tuple[Tensor, Tensor],
@@ -172,9 +171,9 @@ def gridapply(
     Example:
         >>> f = lambda x: -(x**2).sum(dim=-1) / 2
         >>> lower, upper = torch.zeros(3), torch.ones(3)
-        >>> y = gridapply(f, 50, bounds=(lower, upper))
+        >>> y = gridapply(f, bins=10, bounds=(lower, upper))
         >>> y.shape
-        torch.Size([50, 50, 50])
+        torch.Size([10, 10, 10])
     """
 
     lower, upper = bounds
@@ -190,13 +189,13 @@ def gridapply(
 
     for l, u, b in zip(lower, upper, bins):
         step = (u - l) / b
-        dom = torch.linspace(l, u - step, b).to(step) + step / 2.
+        dom = torch.linspace(l, u - step, b).to(step) + step / 2
         domains.append(dom)
 
-    grid = torch.stack(torch.meshgrid(*domains, indexing='ij'), dim=-1)
-    grid = grid.reshape(-1, dims)
+    grid = torch.cartesian_prod(*domains)
 
     # Evaluate f(x) on grid
     y = [f(x) for x in grid.split(batch_size)]
+    y = torch.cat(y)
 
-    return torch.cat(y).reshape(*bins, *y.shape[1:])
+    return y.reshape(*bins, *y.shape[1:])

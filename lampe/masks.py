@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 
 from torch import Tensor, BoolTensor, Size
-from torch.distributions import Distribution, Independent
+from torch.distributions import Distribution, Bernoulli, Independent
 from typing import *
 
 
@@ -61,7 +61,7 @@ class BernoulliMask(Independent):
     def __repr__(self) -> str:
         return f'{self.__class__.__name__}(D={self.event_shape.numel()})'
 
-    def log_prob(b: BoolTensor) -> Tensor:
+    def log_prob(self, b: BoolTensor) -> Tensor:
         return super().log_prob(b.float())
 
     def sample(self, shape: Size = ()) -> BoolTensor:
@@ -99,11 +99,11 @@ class SelectionMask(Distribution):
     def __repr__(self) -> str:
         return f'{self.__class__.__name__}(D={self.event_shape.numel()})'
 
-    def log_prob(b: BoolTensor) -> Tensor:
+    def log_prob(self, b: BoolTensor) -> Tensor:
         match = torch.all(b[..., None, :] == self.selection, dim=-1)
         prob = match.float().mean(dim=-1)
         return prob.log()
 
     def sample(self, shape: Size = ()) -> BoolTensor:
-        index = torch.randint(len(self.selection), shape, device=self.device)
+        index = torch.randint(len(self.selection), shape)
         return self.selection[index]

@@ -15,7 +15,7 @@ from ..utils import broadcast
 
 __all__ = [
     'DistributionModule', 'TransformModule', 'FlowModule',
-    'MaskedAutoregressiveTransform', 'MAF',
+    'MaskedAutoregressiveTransform', 'MAF', 'NSF',
     'NeuralAutoregressiveTransform', 'NAF',
 ]
 
@@ -188,7 +188,7 @@ class MaskedAutoregressiveTransform(TransformModule):
         in_order = torch.cat((self.order, torch.full((context,), -1)))
         out_order = self.order.tile(sum(self.sizes))
 
-        self.params = MaskedMLP(in_order[..., None] < out_order, **kwargs)
+        self.params = MaskedMLP(out_order[:, None] > in_order, **kwargs)
 
     def extra_repr(self) -> str:
         base = self.univariate(*map(torch.randn, self.shapes))

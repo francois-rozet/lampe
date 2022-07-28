@@ -41,7 +41,7 @@ class IterableJointDataset(IterableDataset):
             theta = self.prior.sample(self.batch_shape)
 
             if self.numpy:
-                x = self.simulator(theta.detach().cpu().numpy().astype(np.float64))
+                x = self.simulator(theta.detach().cpu().numpy().astype(np.double))
                 x = torch.from_numpy(x).to(theta)
             else:
                 x = self.simulator(theta)
