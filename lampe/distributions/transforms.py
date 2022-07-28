@@ -124,7 +124,8 @@ class MonotonicRQSTransform(Transform):
     r"""Creates a monotonic rational-quadratic spline (RQS) transformation.
 
     References:
-        Neural Spline Flows (Durkan et al., 2019)
+        Neural Spline Flows
+        (Durkan et al., 2019)
         https://arxiv.org/abs/1906.04032
 
     Arguments:

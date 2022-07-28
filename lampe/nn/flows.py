@@ -155,8 +155,9 @@ class MaskedAutoregressiveTransform(TransformModule):
     Arguments:
         features: The number of features.
         context: The number of context features.
+        passes: The number of passes for the inverse transformation. If :py:`None`,
+            use the number of features instead.
         order: The feature ordering. If :py:`None`, use :py:`range(features)` instead.
-        passes: The number of passes for the inverse transformation.
         univariate: A univariate transformation constructor.
         shapes: The shapes of the univariate transformation parameters.
         kwargs: Keyword arguments passed to :class:`lampe.nn.MaskedMLP`.
@@ -166,8 +167,8 @@ class MaskedAutoregressiveTransform(TransformModule):
         self,
         features: int,
         context: int = 0,
+        passes: int = None,
         order: LongTensor = None,
-        passes: int = -1,
         univariate: Callable[..., Transform] = MonotonicAffineTransform,
         shapes: List[Size] = [(), ()],
         **kwargs,
@@ -178,10 +179,13 @@ class MaskedAutoregressiveTransform(TransformModule):
         self.shapes = list(map(Size, shapes))
         self.sizes = [s.numel() for s in self.shapes]
 
+        if passes is None:
+            passes = features
+
         if order is None:
             order = torch.arange(features)
 
-        self.passes = passes if passes > 0 else features
+        self.passes = min(max(passes, 1), features)
         self.order = torch.div(order, ceil(features / self.passes), rounding_mode='floor')
 
         in_order = torch.cat((self.order, torch.full((context,), -1)))
@@ -226,6 +230,9 @@ class MAF(FlowModule):
         features: The number of features.
         context: The number of context features.
         transforms: The number of autoregressive transforms.
+        randperm: Whether features are randomly permuted between transforms or not.
+            If :py:`False`, features are in ascending (descending) order for even
+            (odd) transforms.
         kwargs: Keyword arguments passed to :class:`MaskedAutoregressiveTransform`.
     """
 
@@ -234,16 +241,19 @@ class MAF(FlowModule):
         features: int,
         context: int = 0,
         transforms: int = 3,
+        randperm: bool = False,
         **kwargs,
     ):
-        increasing = torch.arange(features)
-        decreasing = torch.flipud(increasing)
+        orders = [
+            torch.arange(features),
+            torch.flipud(torch.arange(features)),
+        ]
 
         transforms = [
             MaskedAutoregressiveTransform(
                 features=features,
                 context=context,
-                order=decreasing if i % 2 else increasing,
+                order=torch.randperm(features) if randperm else orders[i % 2],
                 **kwargs,
             )
             for i in range(transforms)
@@ -258,7 +268,8 @@ class NSF(MAF):
     r"""Creates a neural spline flow (NSF).
 
     References:
-        Neural Spline Flows (Durkan et al., 2019)
+        Neural Spline Flows
+        (Durkan et al., 2019)
         https://arxiv.org/abs/1906.04032
 
     Arguments:
@@ -337,6 +348,9 @@ class NAF(FlowModule):
         features: The number of features.
         context: The number of context features.
         transforms: The number of autoregressive transforms.
+        randperm: Whether features are randomly permuted between transforms or not.
+            If :py:`False`, features are in ascending (descending) order for even
+            (odd) transforms.
         kwargs: Keyword arguments passed to :class:`NeuralAutoregressiveTransform`.
     """
 
@@ -345,16 +359,19 @@ class NAF(FlowModule):
         features: int,
         context: int = 0,
         transforms: int = 3,
+        randperm: bool = False,
         **kwargs,
     ):
-        increasing = torch.arange(features)
-        decreasing = torch.flipud(increasing)
+        orders = [
+            torch.arange(features),
+            torch.flipud(torch.arange(features)),
+        ]
 
         transforms = [
             NeuralAutoregressiveTransform(
                 features=features,
                 context=context,
-                order=decreasing if i % 2 else increasing,
+                order=torch.randperm(features) if randperm else orders[i % 2],
                 **kwargs,
             )
             for i in range(transforms)
