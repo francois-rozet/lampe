@@ -8,7 +8,7 @@ from numpy import ndarray as Array
 from typing import *
 
 
-__all__ = ['nice_rc', 'corner', 'rank_ecdf']
+__all__ = ['nice_rc', 'corner', 'mark_point', 'rank_ecdf']
 
 
 def nice_rc(latex: bool = False) -> Dict[str, Any]:
@@ -148,7 +148,6 @@ def corner(
     alpha: Tuple[float, float] = (0., .5),
     legend: str = None,
     labels: List[str] = None,
-    markers: List[Array] = [],
     smooth: float = 0,
     figure: mpl.figure.Figure = None,
     **kwargs,
@@ -166,7 +165,6 @@ def corner(
         alpha: A transparency range.
         legend: A legend.
         labels: The dimension labels.
-        markers: A list of points to mark on the histograms.
         smooth: The standard deviation of the smoothing kernels.
         figure: A corner plot over which to draw the new one.
         kwargs: Keyword arguments passed to :func:`matplotlib.pyplot.subplots`.
@@ -177,7 +175,7 @@ def corner(
     Example:
         >>> data = np.random.randn(2**16, 3)
         >>> labels = [r'$\alpha$', r'$\beta$', r'$\gamma$']
-        >>> corner(data, bins=42, labels=labels, figsize=(4.8, 4.8))
+        >>> figure = corner(data, bins=42, labels=labels, figsize=(4.8, 4.8))
 
     .. image:: ../static/images/corner.png
         :align: center
@@ -325,30 +323,6 @@ def corner(
                 else:
                     ax.set_ylim(bottom=bins[i][0], top=bins[i][-1])
 
-            ## Markers
-            for marker in map(np.asarray, markers):
-                ax.axvline(
-                    marker[j],
-                    color='k',
-                    linestyle='--',
-                    zorder=420,
-                )
-
-                if i != j:
-                    ax.axhline(
-                        marker[i],
-                        color='k',
-                        linestyle='--',
-                        zorder=420,
-                    )
-
-                    ax.plot(
-                        marker[j], marker[i],
-                        color='k',
-                        marker='s',
-                        zorder=420,
-                    )
-
             ## Ticks
             if i == D - 1:
                 ax.xaxis.set_major_locator(mpl.ticker.MaxNLocator(3, prune='both'))
@@ -383,6 +357,56 @@ def corner(
     return figure
 
 
+def mark_point(
+    figure: mpl.figure.Figure,
+    point: Array,
+    color: Union[str, tuple] = 'black',
+) -> None:
+    r"""Marks a point on the histograms of a corner plot.
+
+    Arguments:
+        figure: The corner plot figure (see :func:`corner`).
+        point: The point to mark.
+        color: A color for the lines and markers.
+
+    Example:
+        >>> mark_point(figure, [0.5, 0.3, -0.7], color='black')
+
+    .. image:: ../static/images/corner_marked.png
+        :align: center
+        :width: 600
+    """
+
+    D = len(point)
+    axes = np.asarray(figure.axes).reshape(D, D)
+
+    for i in range(D):
+        for j in range(i + 1):
+            ax = axes[i, j]
+
+            ax.axvline(
+                point[j],
+                color=color,
+                linestyle='--',
+                zorder=420,
+            )
+
+            if i != j:
+                ax.axhline(
+                    point[i],
+                    color=color,
+                    linestyle='--',
+                    zorder=420,
+                )
+
+                ax.plot(
+                    point[j], point[i],
+                    color=color,
+                    marker='s',
+                    zorder=420,
+                )
+
+
 def rank_ecdf(
     ranks: Array,
     color: Union[str, tuple] = None,
@@ -404,8 +428,8 @@ def rank_ecdf(
         The figure instance for the ECDF plot.
 
     Example:
-        >>> ranks = np.random.rand(2**12)**2
-        >>> rank_ecdf(ranks)
+        >>> ranks = np.random.rand(1024)**2
+        >>> figure = rank_ecdf(ranks)
 
     .. image:: ../static/images/rank_ecdf.png
         :align: center
